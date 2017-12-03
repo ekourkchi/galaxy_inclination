@@ -15,7 +15,8 @@ A set of tools (+GUI) to determine the inclination of the Spiral Galaxies
 
            $ python inclination_std.py -l [list_name] -g [galaxy_folder] -s [standard_folder] -f [filter] [-i]
 
-   - To get help  
+   - To get help
+   
            $ python inclination_std.py -h
    
    - Command line options:
@@ -32,6 +33,7 @@ A set of tools (+GUI) to determine the inclination of the Spiral Galaxies
            -a                    allow to flag multiple images (except standards)
 
    - Example(s):
+       
            python inclination_std.py -l list.csv -g ./galaxies -s ./standards -f g -i
            
 

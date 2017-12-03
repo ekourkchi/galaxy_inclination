@@ -7,9 +7,9 @@ A set of tools (+GUI) to determine the inclination of the Spiral Galaxies
  
 ## How it works:
     
-      The goal is to find the best position for the galaxy on the rightmost panel (the panel with '?' mark). Normally it takes ~4 times (sorts) to introduce a new galaxy. Looking at other galaxies with known inclinations, user is able to visually find the best position for the galaxy.
+The goal is to find the best position for the galaxy on the rightmost panel (the panel with '?' mark). Normally it takes ~4 times (sorts) to introduce a new galaxy. Looking at other galaxies with known inclinations, user is able to visually find the best position for the galaxy.
       
-      Standard galaxies are those with already known inclinations. These galaxies are denoted by asterisks. The goal is to find the position of the unknown galaxy in between the other galaxies. The user cannot swap the standards and sort them out of order. If standard galaxies are out of order or all galaxies are not in the bottom row, the "Next" button is inativated and does not let the user to move on. Also, the user can update the position of all other non-standard galaxies at any time. 
+Standard galaxies are those with already known inclinations. These galaxies are denoted by asterisks. The goal is to find the position of the unknown galaxy in between the other galaxies. The user cannot swap the standards and sort them out of order. If standard galaxies are out of order or all galaxies are not in the bottom row, the "Next" button is inativated and does not let the user to move on. Also, the user can update the position of all other non-standard galaxies at any time. 
 
 ## How to run:
 

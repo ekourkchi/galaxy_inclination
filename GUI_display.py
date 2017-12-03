@@ -346,7 +346,7 @@ def open_image(file, flip=False):
    try:
       img = Image.open(file)
    except:
-      img =  Image.open('noImage.jpeg')
+      img =  Image.open('logo/noImage.jpeg')
       flip = True
    
    #rsize = img.resize((img.size[0],img.size[1])) # Use PIL to resize 

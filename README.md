@@ -11,7 +11,7 @@ A set of tools (+GUI) to determine the inclination of the Spiral Galaxies
 
 
 
- 1) The GUI actions
+ * The GUI actions
  
    - Inclination standard galaxies are denoted by asterisks next to their panel number
    - To select/unselect a galaxy clicking on it (left click)
@@ -27,20 +27,21 @@ A set of tools (+GUI) to determine the inclination of the Spiral Galaxies
 
 
 
- 2) What you see on each panel
+ * What you see on each panel
  
  ![Panel Labels](https://user-images.githubusercontent.com/13570487/33522617-f9e62040-d794-11e7-82a8-f9a294169844.png "Panel Labels")
  ![Panel Labels](https://user-images.githubusercontent.com/13570487/33522626-21c0b544-d795-11e7-88b8-e74e599a054b.png "Panel Labels")
  
-  1 and 2) Panel index. The target galaxy is denoted by "??" sign. 
-        3) Filter badn
-        4) Panel index. In the case of standard galaxies, "***" is on the right side the index number
-        5) PGC id 
-  6 and 7) Inclination in degree. The number is in parentheses in the case of non-standard galaxies. User can change the inclination value of non-standard galaxies at any time by moving these galaxies around (based on their inclinations).
-        8) A target galaxy that is going to be flagged.
-        9) All the label fonts are in red when a galaxy is about to be flagged.
+   - 1 and 2) Panel index. The target galaxy is denoted by "??" sign. 
+   - 3) Filter badn
+   - 4) Panel index. In the case of standard galaxies, "***" is on the right side the index number
+   - 5) PGC id 
+   - 6 and 7) Inclination in degree. The number is in parentheses in the case of non-standard galaxies. User can change the inclination value of non-standard galaxies at any time by moving these galaxies around (based on their inclinations).
+   - 8) A target galaxy that is going to be flagged.
+   - 9) All the label fonts are in red when a galaxy is about to be flagged.
         
-  3) FAQ
+ * FAQ
+ 
    - What Happens when you flag a galaxy? That galaxy would be removed from the list for further inspections. User is asked to answer a simple questions why the galaxy is falgged. 
    
        !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!
@@ -52,7 +53,9 @@ A set of tools (+GUI) to determine the inclination of the Spiral Galaxies
        3 - Ambiguous, bad HI profile, not a good TF galaxy
        4 - Cancel
 
-
+ * How to run:
+ 
+           1$ python SDSS_get.py -r [RA] -d [DEC] -w [FOV-width]
     
     
     

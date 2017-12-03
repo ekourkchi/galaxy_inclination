@@ -44,14 +44,14 @@ A set of tools (+GUI) to determine the inclination of the Spiral Galaxies
  
    - What Happens when you flag a galaxy? That galaxy would be removed from the list for further inspections. User is asked to answer a simple questions why the galaxy is falgged. 
    
-       !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!
-       Are you sure you want to flag pgc52412? [y/N] y
+           !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!
+           Are you sure you want to flag pgc52412? [y/N] y
 
-       What is the reason for flagging this object (choose one)?
-       1 - Wrong Position Angle
-       2 - Too faint image
-       3 - Ambiguous, bad HI profile, not a good TF galaxy
-       4 - Cancel
+           What is the reason for flagging this object (choose one)?
+           1 - Wrong Position Angle
+           2 - Too faint image
+           3 - Ambiguous, bad HI profile, not a good TF galaxy
+           4 - Cancel
 
  * How to run:
  

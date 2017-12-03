@@ -14,7 +14,7 @@ Standard galaxies are those with already known inclinations. These galaxies are 
     
    - A folder that contains the images of standard galaxies
    - A folder that contains the images of all target galaxies
-   - The list of target galaxis. This list has only one column, the PGC number of the galaxies. For example, as text file as follows:
+   - The list of target galaxis. This list has only one column, the PGC number of the galaxies. For example, a text file like:
            
            pgc
            10002   

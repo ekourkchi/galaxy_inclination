@@ -14,7 +14,7 @@ Standard galaxies are those with already known inclinations. These galaxies are 
     
    - A folder that contains the images of standard galaxies
    - A folder that contains the images of all target galaxies
-   - The list of target galaxis. This list has only one column, the PGC number of the galaxies. For example, a text file like:
+   - The list of target galaxis. This list has only one column, the PGC number of the galaxies. For example, a text file like 'pgc.100.lst':
            
            pgc
            10002   
@@ -24,7 +24,8 @@ Standard galaxies are those with already known inclinations. These galaxies are 
            10139
            10209
 
-
+   - Outputs would be stored in <input-list>.output, e.g. 'pgc.100.lst.output'
+   
 ## How to run:
 
            $ python inclination_std.py -l [list_name] -g [galaxy_folder] -s [standard_folder] -f [filter] [-i]

@@ -36,11 +36,11 @@ A set of tools (+GUI) to determine the inclination of the Spiral Galaxies
  ![Panel Labels](https://user-images.githubusercontent.com/13570487/33522617-f9e62040-d794-11e7-82a8-f9a294169844.png "Panel Labels")
  ![Panel Labels](https://user-images.githubusercontent.com/13570487/33522626-21c0b544-d795-11e7-88b8-e74e599a054b.png "Panel Labels")
 
-1 and 2. Panel index. The target galaxy is denoted by "??" sign. 
+1. Panel index. The target galaxy is denoted by "??" sign. 
 3. Filter badn
 4. Panel index. In the case of standard galaxies, "***" is on the right side the index number
 5. PGC id 
-6 and 7. Inclination in degree. The number is in parentheses in the case of non-standard galaxies. User can change the inclination value of non-standard galaxies at any time by moving these galaxies around (based on their inclinations).
+6. Inclination in degree. The number is in parentheses in the case of non-standard galaxies. User can change the inclination value of non-standard galaxies at any time by moving these galaxies around (based on their inclinations).
 8. A target galaxy that is going to be flagged.
 9. All the label fonts are in red when a galaxy is about to be flagged.
 

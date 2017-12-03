@@ -39,6 +39,7 @@ def arg_parser():
     parser = OptionParser(usage="""\
 \n
  - A GUI to sort galaxies based on their inclinations ...
+ - Please visit the following URL for help and manual: https://github.com/ekourkchi/galaxy_inclination/blob/master/README.md
 
  - How to run: 
  
@@ -75,7 +76,7 @@ def arg_parser():
     
     parser.add_option("-i", action="store_true", help="initially invert images", default=False)
     
-    parser.add_option("-a", action="store_true", help="allow to flag multiple images (except standards)", default=False)
+    parser.add_option("-a", action="store_true", help="allow flagging multiple images (except standards)", default=False)
     
     (opts, args) = parser.parse_args()
     return opts, args

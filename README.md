@@ -4,9 +4,9 @@ A set of tools (+GUI) to determine the inclination of the Spiral Galaxies. To se
 
 ## How it works:
     
-The goal is to find the best position for the galaxy on the rightmost panel (the panel with '?' mark). Normally it takes ~4 times (sorts) to introduce a new galaxy. Looking at other galaxies with known inclinations, user is able to visually find the best position for the galaxy.
+The goal is to find the best position for the galaxy on the rightmost panel (the panel with '?' mark). Normally it takes ~4 times (sorts) to introduce a new galaxy. Looking at other galaxies with known inclinations, the user is able to visually find the best position for the galaxy.
       
-Standard galaxies are those with already known inclinations. These galaxies are denoted by asterisks. The goal is to find the position of the unknown galaxy in between the other galaxies. The user cannot swap the standards and sort them out of order. If standard galaxies are out of order or all galaxies are not in the bottom row, the "Next" button is inativated and does not let the user to move on. Also, the user can update the position of all other non-standard galaxies at any time. 
+Standard galaxies are those with already known inclinations. These galaxies are denoted by asterisks. The goal is to find the position of the unknown galaxy in between the other galaxies. The user cannot swap the standards and sort them out of order. If standard galaxies are out of order or all galaxies are not in the bottom row, the "Next" button is inactivated and does not let the user move on. Also, the user can update the position of all other non-standard galaxies at any time. 
 
  ![GUI demo](https://user-images.githubusercontent.com/13570487/33522035-a237c686-d786-11e7-9efc-df7e53b24940.png "GUI demo")
 
@@ -30,7 +30,7 @@ Standard galaxies are those with already known inclinations. These galaxies are 
            -f FILTER, --filter=FILTER
                         initial filter
            -i                    initially invert images
-           -a                    allow to flag multiple images (except standards)
+           -a                    allow flagging multiple images (except standards)
 
    - Example(s):
        
@@ -59,16 +59,23 @@ Standard galaxies are those with already known inclinations. These galaxies are 
  ![Panel Labels](https://user-images.githubusercontent.com/13570487/33522626-21c0b544-d795-11e7-88b8-e74e599a054b.png "Panel Labels")
 
 1. (and 2) Panel index. The target galaxy is denoted by "??" sign. 
-3. Filter badn
+3. Filter band
 4. Panel index. In the case of standard galaxies, "***" is on the right side the index number
 5. PGC id 
-6. (and 7) Inclination in degree. The number is in parentheses in the case of non-standard galaxies. User can change the inclination value of non-standard galaxies at any time by moving these galaxies around (based on their inclinations).
+6. (and 7) Inclination in degree. The number is in parentheses in the case of non-standard galaxies. The user can change the inclination value of non-standard galaxies at any time by moving these galaxies around (based on their inclinations).
 8. A target galaxy that is going to be flagged.
 9. All the label fonts are in red when a galaxy is about to be flagged.
+ 
+ ![GUI Buttons](https://user-images.githubusercontent.com/13570487/33522891-5660f80c-d79c-11e7-89c7-0539f4d3c975.png "GUI Buttons")
+ 
+1. Exit: Quits the program
+2. Skip: Skips the current galaxy (denoted by '??'). If the user agrees to continue, another galaxy would be chosen.
+3. Redo: Starts the entire process for the current galaxy. 
+4. Next: If activated, close the GUI and moves onto the next set. If the position of the target galaxy is completely clear, a new galaxy would be drawn randomly.
 
 ## FAQ
  
-   - What Happens when I flag a galaxy? That galaxy would be removed from the list for further inspections. User is asked to answer a simple questions why the galaxy is falgged. 
+   - What Happens when I flag a galaxy? That galaxy would be removed from the list for further inspections. The user is asked to answer a simple question why the galaxy is flagged. 
    
            !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!
            Are you sure you want to flag pgc52412? [y/N] y
@@ -82,7 +89,7 @@ Standard galaxies are those with already known inclinations. These galaxies are 
 
    - What to do if I feel lost and need to repeat the whole process for the target galaxy, i.e. the galaxy with '??' sign? Click on the "Redo" button and repeat the process.
    
-   - What to do if I am not confident enough with the results I am getting for the current galaxy? Click on the "Skip" button. The program will choose another galaxy galaxy randomly.
+   - What to do if I am not confident enough with the results I am getting for the current galaxy? Click on the "Skip" button. The program will choose another galaxy randomly.
    
    - What to do to completely quit the program? Click on the "Exit" button, and take a break. 
 
@@ -91,7 +98,7 @@ Standard galaxies are those with already known inclinations. These galaxies are 
 
              Thanks a lot. Bye :)
 
-   - Waht happens if I accidentally close the GUI window? The program "Skips" the current galaxy and offers to work on another galaxy.
+   - What happens if I accidentally close the GUI window? The program "Skips" the current galaxy and offers to work on another galaxy.
            
            No object added ....
            Number of remaining galaxies:  ###

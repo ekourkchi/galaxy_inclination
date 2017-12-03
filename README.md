@@ -12,8 +12,28 @@ A set of tools (+GUI) to determine the inclination of the Spiral Galaxies
       Standard galaxies are those with already known inclinations. These galaxies are denoted by asterisks. The goal is to find the position of the unknown galaxy in between the other galaxies. The user cannot swap the standards and sort them out of order. If standard galaxies are out of order or all galaxies are not in the bottom row, the "Next" button is inativated and does not let the user to move on. Also, the user can update the position of all other non-standard galaxies at any time. 
 
 ## How to run:
- 
-           1$ python SDSS_get.py -r [RA] -d [DEC] -w [FOV-width]
+
+           $ python inclination_std.py -l [list_name] -g [galaxy_folder] -s [standard_folder] -f [filter] [-i]
+
+   - To get help  
+           $ python inclination_std.py -h
+   
+   - Command line options:
+           
+           -h, --help            show this help message and exit
+           -l LIST, --list=LIST  The input list
+           -g GALAXIES, --galaxies=GALAXIES
+                        The folder that contains galaxies images
+           -s STANDARDS, --standards=STANDARDS
+                        The folder that contains standards images
+           -f FILTER, --filter=FILTER
+                        initial filter
+           -i                    initially invert images
+           -a                    allow to flag multiple images (except standards)
+
+   - Example(s):
+           python inclination_std.py -l list.csv -g ./galaxies -s ./standards -f g -i
+           
 
 ## The GUI actions
  
@@ -36,11 +56,11 @@ A set of tools (+GUI) to determine the inclination of the Spiral Galaxies
  ![Panel Labels](https://user-images.githubusercontent.com/13570487/33522617-f9e62040-d794-11e7-82a8-f9a294169844.png "Panel Labels")
  ![Panel Labels](https://user-images.githubusercontent.com/13570487/33522626-21c0b544-d795-11e7-88b8-e74e599a054b.png "Panel Labels")
 
-1. Panel index. The target galaxy is denoted by "??" sign. 
+1. (and 2) Panel index. The target galaxy is denoted by "??" sign. 
 3. Filter badn
 4. Panel index. In the case of standard galaxies, "***" is on the right side the index number
 5. PGC id 
-6. Inclination in degree. The number is in parentheses in the case of non-standard galaxies. User can change the inclination value of non-standard galaxies at any time by moving these galaxies around (based on their inclinations).
+6. (and 7) Inclination in degree. The number is in parentheses in the case of non-standard galaxies. User can change the inclination value of non-standard galaxies at any time by moving these galaxies around (based on their inclinations).
 8. A target galaxy that is going to be flagged.
 9. All the label fonts are in red when a galaxy is about to be flagged.
 

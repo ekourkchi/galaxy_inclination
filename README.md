@@ -1,15 +1,15 @@
 # Galaxy Inclination
 
-A set of tools (+GUI) to determine the inclination of the Spiral Galaxies
+A set of tools (+GUI) to determine the inclination of the Spiral Galaxies. To see some notes on how the algorithm works, [Click Here](https://github.com/ekourkchi/galaxy_inclination/files/1524526/galaxy_sorting.pdf)
 
- ![GUI demo](https://user-images.githubusercontent.com/13570487/33522035-a237c686-d786-11e7-9efc-df7e53b24940.png "GUI demo")
-
- 
 ## How it works:
     
 The goal is to find the best position for the galaxy on the rightmost panel (the panel with '?' mark). Normally it takes ~4 times (sorts) to introduce a new galaxy. Looking at other galaxies with known inclinations, user is able to visually find the best position for the galaxy.
       
 Standard galaxies are those with already known inclinations. These galaxies are denoted by asterisks. The goal is to find the position of the unknown galaxy in between the other galaxies. The user cannot swap the standards and sort them out of order. If standard galaxies are out of order or all galaxies are not in the bottom row, the "Next" button is inativated and does not let the user to move on. Also, the user can update the position of all other non-standard galaxies at any time. 
+
+ ![GUI demo](https://user-images.githubusercontent.com/13570487/33522035-a237c686-d786-11e7-9efc-df7e53b24940.png "GUI demo")
+
 
 ## How to run:
 

@@ -9,6 +9,20 @@ The goal is to find the best position for the galaxy on the rightmost panel (the
 Standard galaxies are those with already known inclinations. These galaxies are denoted by asterisks. The goal is to find the position of the unknown galaxy in between the other galaxies. The user cannot swap the standards and sort them out of order. If standard galaxies are out of order or all galaxies are not in the bottom row, the "Next" button is inactivated and does not let the user move on. Also, the user can update the position of all other non-standard galaxies at any time. 
 
  ![GUI demo](https://user-images.githubusercontent.com/13570487/33522035-a237c686-d786-11e7-9efc-df7e53b24940.png "GUI demo")
+ 
+## What you need in addition to above codes [to be completed]:
+    
+   - A folder that contains the images of standard galaxies
+   - A folder that contains the images of all target galaxies
+   - The list of target galaxis. This list has only one column, the PGC number of the galaxies. For example, as text file as follows:
+           
+           pgc
+           10002   
+           100768
+           10208
+           10215
+           10139
+           10209
 
 
 ## How to run:
@@ -71,7 +85,7 @@ Standard galaxies are those with already known inclinations. These galaxies are 
 1. Exit: Quits the program
 2. Skip: Skips the current galaxy (denoted by '??'). If the user agrees to continue, another galaxy would be chosen.
 3. Redo: Starts the entire process for the current galaxy. 
-4. Next: If activated, close the GUI and moves onto the next set. If the position of the target galaxy is completely clear, a new galaxy would be drawn randomly.
+4. Next: If activated, closes the GUI and moves onto the next set. If the position of the target galaxy is completely clear, a new galaxy would be drawn randomly.
 
 ## FAQ
  

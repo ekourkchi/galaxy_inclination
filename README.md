@@ -35,7 +35,12 @@ A set of tools (+GUI) to determine the inclination of the Spiral Galaxies
  
  ![Panel Labels](https://user-images.githubusercontent.com/13570487/33522617-f9e62040-d794-11e7-82a8-f9a294169844.png "Panel Labels")
  ![Panel Labels](https://user-images.githubusercontent.com/13570487/33522626-21c0b544-d795-11e7-88b8-e74e599a054b.png "Panel Labels")
- 
+
+
+1. First ordered list item
+2. Another item
+⋅⋅* Unord
+
    1 and 2. Panel index. The target galaxy is denoted by "??" sign. 
    3. Filter badn
    4. Panel index. In the case of standard galaxies, "***" is on the right side the index number

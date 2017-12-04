@@ -10,6 +10,7 @@ __status__ = "Production"
 import sys
 import os
 import subprocess
+import getpass
 from math import *
 import numpy as np
 from datetime import *
@@ -32,6 +33,7 @@ std_folder='standards/'
 gal_folder='galaxies/'
 invert=False
 flag_all=False
+username = getpass.getuser()
 #################################
 
 
@@ -103,7 +105,6 @@ def query_option():
         else:
             sys.stdout.write("Please respond with the option number\n")
     
-    
 #################################
 
 def query_yes_no(question, default="yes"):
@@ -144,7 +145,7 @@ def query_yes_no(question, default="yes"):
 # the context of this code
 class GalxyNode:
   # Class constructor
-  def __init__(self, pgc, inc=-1, flag=0, sort=0, reason=0):
+  def __init__(self, pgc, inc=-1, flag=0, sort=0, reason=0, user='nan'):
       
       self.pgc    = pgc     # PGC ID
       self.inc    = inc     # inclination (degree)
@@ -153,6 +154,7 @@ class GalxyNode:
       self.reason = reason  # =1: bad Position Angle
                             # =2: too faint to determine the inclination
                             # =3: reject it, not a good TF galaxy
+      self.user   = user
 #################################
 def listWrite(outfile, list):
    
@@ -165,6 +167,7 @@ def listWrite(outfile, list):
   myTable.add_column(Column(data=empty,name='flag', dtype=np.dtype(int)))
   myTable.add_column(Column(data=empty,name='sort', dtype=np.dtype(int)))
   myTable.add_column(Column(data=empty,name='reason', dtype=np.dtype(int)))
+  myTable.add_column(Column(data=empty,name='user', dtype='S16'))
   
   ################### BEGIN - Modifying inclinations using standard inclinations
   inc_piv_top = -10
@@ -226,7 +229,7 @@ def listWrite(outfile, list):
   for i in range(NoGals):
       galaxy = list[i]
       if galaxy.flag<=0:
-         myTable.add_row([galaxy.pgc, galaxy.inc, galaxy.flag, galaxy.sort, galaxy.reason])
+         myTable.add_row([galaxy.pgc, galaxy.inc, galaxy.flag, galaxy.sort, galaxy.reason, galaxy.user])
          unflagged_lst.append(galaxy)
       else:
          flagged_lst.append(galaxy)
@@ -234,9 +237,9 @@ def listWrite(outfile, list):
          
   for i in range(len(flagged_lst)):
       galaxy = flagged_lst[i]
-      myTable.add_row([galaxy.pgc, galaxy.inc, galaxy.flag, galaxy.sort, galaxy.reason])
+      myTable.add_row([galaxy.pgc, galaxy.inc, galaxy.flag, galaxy.sort, galaxy.reason, galaxy.user])
   
-  myTable.write(outfile, format='ascii.fixed_width',delimiter=',', bookend=False)
+  myTable.write(outfile, format='ascii.fixed_width',delimiter=',', bookend=False, overwrite=True)
   
   unflag_index = len(unflagged_lst)
   
@@ -377,7 +380,7 @@ def insert_value(list, value, i_min, i_max, N_max):
 
 def  disp(list, I, value, N_max, sort=True):
 
-    global std_folder, gal_folder, filter, invert, flag_all
+    global std_folder, gal_folder, filter, invert, flag_all, username
     
     lst = [list[I[0]],list[I[1]],list[I[2]],list[I[3]], value]
 
@@ -400,14 +403,17 @@ def  disp(list, I, value, N_max, sort=True):
        if ind[i] < 4:
           if list[I[m]].pgc!=lst[ind[i]].pgc:
              list[I[m]] = lst[ind[i]]
-             if list[I[m]].flag!= -1:
+             if list[I[m]].flag!= -1:  # if non-standardsa are moved
                list[I[m]].sort+=1
-          if flag[i]:
+               list[I[m]].user = username
+          if flag[i]:                  # if an already listed non-standard is flagged
              list[I[m]].flag=1
              list[I[m]].reason=3
-          elif list[I[m]].flag>0:
+             list[I[m]].user = username
+          elif list[I[m]].flag>0:      # if a non-standard is unflagged
              list[I[m]].flag=0
              list[I[m]].reason=0
+             list[I[m]].user = username
           m+=1 
        elif flag[i]:
            exit = True
@@ -590,13 +596,14 @@ if __name__ == '__main__':
    flag   = mytable['flag']
    sort   = mytable['sort']
    reason = mytable['reason']
+   user   = mytable['user']
 
    n = len(pgc)
    list = []
    N_max = 0
    for i in range(n):
        if flag[i]<=0: N_max+=1
-       list.append(GalxyNode(pgc[i],inc=inc[i], flag=flag[i], sort=sort[i], reason=reason[i]))
+       list.append(GalxyNode(pgc[i],inc=inc[i], flag=flag[i], sort=sort[i], reason=reason[i], user=user[i]))
        
 
    mytable = np.genfromtxt(listName , delimiter=',', filling_values=None, names=True, dtype=None )
@@ -623,7 +630,7 @@ if __name__ == '__main__':
        n = len(list)
        N = len(PGC)
        i = int(np.floor(uniform(0,N)))
-       value = GalxyNode(PGC[i])
+       value = GalxyNode(PGC[i], user=username)
        status= 2 # 3:exit, 2:redo, 1:flag, 0:done
        unexpected = False
        
@@ -666,7 +673,7 @@ if __name__ == '__main__':
            else: 
                myTable = Table()
                myTable.add_column(Column(data=PGC_,name='pgc', dtype=np.dtype(int)))
-               myTable.write(listName, format='ascii.fixed_width',delimiter=',', bookend=False)
+               myTable.write(listName, format='ascii.fixed_width',delimiter=',', bookend=False, overwrite=True)
            print "Number of remaining galaxies: ", len(PGC)
        
        

@@ -597,7 +597,11 @@ if __name__ == '__main__':
    sort   = mytable['sort']
    reason = mytable['reason']
    user   = mytable['user']
-
+   
+   for i in range(len(user)):
+       user[i] = ''.join(user[i].split())
+   
+   
    n = len(pgc)
    list = []
    N_max = 0

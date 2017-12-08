@@ -2,6 +2,9 @@
 
 A set of tools (+GUI) to determine the inclination of the Spiral Galaxies. To see some notes on how the algorithm works, [Click Here](https://github.com/ekourkchi/galaxy_inclination/files/1524526/galaxy_sorting.pdf)
 
+## DEMO
+Please [Click here](https://github.com/ekourkchi/galaxy_inclination/tree/master/DEMO), and follow the instruction in the  README file to run the DEMO version of this program. This DEMO version is no longer updated and it does not have all features of the final product. 
+
 ## How it works:
     
 The goal is to find the best position for the galaxy on the rightmost panel (the panel with '?' mark). Normally it takes ~4 times (sorts) to introduce a new galaxy. Looking at other galaxies with known inclinations, the user is able to visually find the best position for the galaxy.

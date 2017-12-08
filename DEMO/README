@@ -22,8 +22,18 @@ Code Structure:
     2: To get command line help:
         python inclination_std.py -h
 
-    3: Graphical User Interface:
+    3: The Graphical User Interface:
          GUI_display.py
+         
+Data Structure:
+    
+    1: The image of all galaxies are in a folder called "galaxies"
+    
+    2: The image of the inclination standard galaxies are in a folder called "standards"
+    
+    3: The input list is "pgc.demo.lst"
+    
+    4: All the outputs (i.e. the sorted catalog of galaxies) are stored in "pgc.demo.lst.output"
     
  
 

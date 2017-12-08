@@ -23,7 +23,7 @@ from optparse import OptionParser
 from PIL import Image#, ImageTk
 from subprocess import Popen, PIPE
 import matplotlib.patches as patches
-
+import scipy.misc as scimisc
 #################################
 
 def xcmd(cmd,verbose):
@@ -710,7 +710,12 @@ def on_click(event):
        elif not event.dblclick and event.button == 2:
            for i in range(len(my_axes)):
                if event.inaxes == my_axes[i].ax:
-
+                   
+                   #np.flipud
+                   #np.fliplr(my_axes[i].image)
+                   #im = scimisc.imrotate(my_axes[i].image, 5, interp='bilinear')
+                   #my_axes[i].set_image(im, filter=my_axes[i].filter, only_image=True)
+                 
                    if (flagAll and my_axes[i].flag>=0) or (not flagAll and images_ind[i]==4):  # do not flag standards, or blanks or  # just flag the 4th panel
                        garbage_lst[i] = my_axes[i].flip_garbage()
                    

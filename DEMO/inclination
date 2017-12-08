@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python inclination_std.py -l $1 -g $2 -s $3 -f g -i 

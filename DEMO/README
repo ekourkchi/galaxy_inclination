@@ -1,0 +1,33 @@
+To run this DEMO:
+    
+    0. Downlod this DEMO on your local computer
+    
+    1. change directory to where you put this DEMO
+        cd <this-DEMO>
+    
+    2. Make the "inclination" file executable:
+        chmod +x inclination
+    
+    3. Run the "inclination" code from
+        bash inclination pgc.demo.lst galaxies standards
+        
+    4. Please visit the following URL for help and manual: https://github.com/ekourkchi/galaxy_inclination/blob/master/README.md
+        
+        
+Code Structure: 
+    
+    1: Main algorithm and inetrface: 
+        inclination_std.py
+        
+    2: To get command line help:
+        python inclination_std.py -h
+
+    3: Graphical User Interface:
+         GUI_display.py
+    
+ 
+
+Copyright 2017
+Ehsan Kourkchi 
+email: ehsan@ifa.hawaii.edu
+   

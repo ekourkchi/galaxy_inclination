@@ -23,7 +23,6 @@ from optparse import OptionParser
 from PIL import Image#, ImageTk
 from subprocess import Popen, PIPE
 import matplotlib.patches as patches
-import scipy.misc as scimisc
 #################################
 
 def xcmd(cmd,verbose):

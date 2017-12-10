@@ -145,7 +145,7 @@ def query_yes_no(question, default="yes"):
 # the context of this code
 class GalxyNode:
   # Class constructor
-  def __init__(self, pgc, inc=-1, flag=0, sort=0, reason=0, user='nan'):
+  def __init__(self, pgc, inc=-1, flag=0, sort=0, reason=0, user='nan', dPA=0):
       
       self.pgc    = pgc     # PGC ID
       self.inc    = inc     # inclination (degree)
@@ -155,6 +155,9 @@ class GalxyNode:
                             # =2: too faint to determine the inclination
                             # =3: reject it, not a good TF galaxy
       self.user   = user
+      self.dPA    = dPA     # difference in Position Angle (degree)
+                            # This tells the GUI how much to rotate each galaxy
+                            # when displaying
 #################################
 def listWrite(outfile, list):
    
@@ -167,6 +170,7 @@ def listWrite(outfile, list):
   myTable.add_column(Column(data=empty,name='flag', dtype=np.dtype(int)))
   myTable.add_column(Column(data=empty,name='sort', dtype=np.dtype(int)))
   myTable.add_column(Column(data=empty,name='reason', dtype=np.dtype(int)))
+  myTable.add_column(Column(data=empty,name='dPA', dtype=np.dtype(int)))
   myTable.add_column(Column(data=empty,name='user', dtype='S16'))
   
   ################### BEGIN - Modifying inclinations using standard inclinations
@@ -229,7 +233,7 @@ def listWrite(outfile, list):
   for i in range(NoGals):
       galaxy = list[i]
       if galaxy.flag<=0:
-         myTable.add_row([galaxy.pgc, galaxy.inc, galaxy.flag, galaxy.sort, galaxy.reason, galaxy.user])
+         myTable.add_row([galaxy.pgc, galaxy.inc, galaxy.flag, galaxy.sort, galaxy.reason, galaxy.dPA, galaxy.user])
          unflagged_lst.append(galaxy)
       else:
          flagged_lst.append(galaxy)
@@ -237,7 +241,7 @@ def listWrite(outfile, list):
          
   for i in range(len(flagged_lst)):
       galaxy = flagged_lst[i]
-      myTable.add_row([galaxy.pgc, galaxy.inc, galaxy.flag, galaxy.sort, galaxy.reason, galaxy.user])
+      myTable.add_row([galaxy.pgc, galaxy.inc, galaxy.flag, galaxy.sort, galaxy.reason, galaxy.dPA, galaxy.user])
   
   myTable.write(outfile, format='ascii.fixed_width',delimiter=',', bookend=False, overwrite=True)
   
@@ -388,13 +392,18 @@ def  disp(list, I, value, N_max, sort=True):
     galaxies = [lst[0].pgc,lst[1].pgc,lst[2].pgc,lst[3].pgc,lst[4].pgc]
     Flags = [lst[0].flag,lst[1].flag,lst[2].flag,lst[3].flag,lst[4].flag]
     INCS  = [lst[0].inc,lst[1].inc,lst[2].inc,lst[3].inc,lst[4].inc]
-    ind, flag, status =  display(galaxies, Flags=Flags, INCS=INCS, filter=filter, std_folder=std_folder, gal_folder=gal_folder, invert=invert, flag_all=flag_all)
+    PAA   = [lst[0].dPA,lst[1].dPA,lst[2].dPA,lst[3].dPA,lst[4].dPA]
+    ind, flag, status, PA =  display(galaxies, Flags=Flags, INCS=INCS, filter=filter, std_folder=std_folder, gal_folder=gal_folder, invert=invert, flag_all=flag_all, dPA=PAA)
     
+      
+          
     if status>0:
         return 0, True, [0,1,2,3], status
     
     ind = np.asarray(ind)
 
+    for i in range(5):
+        lst[ind[i]].dPA = PA[i]
     
     ## Updating the list based on what users think
     m = 0
@@ -598,6 +607,15 @@ if __name__ == '__main__':
    reason = mytable['reason']
    user   = mytable['user']
    
+
+   try:
+      dPA = mytable['dPA']
+   except:
+      print "[Warning] OLD output file, it'll be updated ..." 
+      dPA    = inc*0.
+   
+   
+   
    for i in range(len(user)):
        user[i] = ''.join(user[i].split())
    
@@ -607,7 +625,7 @@ if __name__ == '__main__':
    N_max = 0
    for i in range(n):
        if flag[i]<=0: N_max+=1
-       list.append(GalxyNode(pgc[i],inc=inc[i], flag=flag[i], sort=sort[i], reason=reason[i], user=user[i]))
+       list.append(GalxyNode(pgc[i],inc=inc[i], flag=flag[i], sort=sort[i], reason=reason[i], user=user[i], dPA=dPA[i]))
        
 
    mytable = np.genfromtxt(listName , delimiter=',', filling_values=None, names=True, dtype=None )

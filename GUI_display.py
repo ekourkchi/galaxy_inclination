@@ -136,7 +136,7 @@ class ImDisp:
       self.y2 = self.Ymax
     ###
     
-  def zoom_IN(self, xc=None, yc=None, ratio=0.8):
+  def zoom_IN(self, xc=None, yc=None, ratio=0.9):
     
     if xc== None:
         xc=0.5*(self.Xmin+self.Xmax)
@@ -146,7 +146,7 @@ class ImDisp:
     self.zoom(xc=xc, yc=yc, ratio=ratio)
     return self.x1, self.x2, self.y1, self.y2
       
-  def zoom_OUT(self, xc=None, yc=None, ratio=5./4):
+  def zoom_OUT(self, xc=None, yc=None, ratio=10./9):
       
     if xc== None:
         xc=0.5*(self.Xmin+self.Xmax)
@@ -174,7 +174,7 @@ class ImDisp:
 #################################################
 class My_ax:
     
-    def __init__(self, fig, position, image, filter='', pgc=0, index=-2, im_folder=''):
+    def __init__(self, fig, position, image, filter='', pgc=0, index=-2, im_folder='', angle=0):
         
         self.garbage = False
         self.position = position
@@ -201,7 +201,7 @@ class My_ax:
         self.ax.imshow(image)
         
         self.selected = False
-        self.angle = 0.
+        self.angle = angle
         self.invert = False
         
         self.pgc = pgc
@@ -507,6 +507,7 @@ garbage_button = None
 garbage1_icon = None
 garbage2_icon = None
 
+PA=[0,0,0,0,0]
 ############################################
 def any_garbage(garbage_lst):
     
@@ -525,7 +526,7 @@ def make_window():
    global nextButton_on, axes_lst, my_axes
    global next_button, info_txt, reset_button, radio, fig
    global g_button, r_button, i_button, gri_button, invert_button, garbage_button, skip_button, redo_button, exit_button
-   global garbage1_icon, garbage2_icon, next_on, next_off,  flags, flags_, incs, incs_
+   global garbage1_icon, garbage2_icon, next_on, next_off,  flags, flags_, incs, incs_, PA
    
    mpl.rcParams['toolbar'] = 'None'
    
@@ -567,7 +568,8 @@ def make_window():
    ax00.set_xticks([])
    ax00.set_yticks([])
    ax00.add_patch(patches.Rectangle((0, 0),1,1,fill=True, color='maroon') )     # remove background
-
+   
+   # top row
    gri100 = open_image('logo/1_400.png', flip=True)
    gri200 = open_image('logo/2_400.png', flip=True)
    gri300 = open_image('logo/3_400.png', flip=True)
@@ -581,17 +583,19 @@ def make_window():
    
    blank = gri100*0
    
+   # buttom row
    my_ax1 = My_ax(fig, [0.03, 0.1, 0.18, 0.3], blank)
    my_ax2 = My_ax(fig, [0.22, 0.1, 0.18,  0.3], blank)
    my_ax3 = My_ax(fig, [0.41, 0.1, 0.18,  0.3], blank)
    my_ax4 = My_ax(fig, [0.60, 0.1, 0.18,  0.3], blank)
    my_ax5 = My_ax(fig, [0.79, 0.1, 0.18,  0.3], blank)
    
-   my_ax10 = My_ax(fig, [0.1425, 0.45, 0.135, 0.225], blank)
-   my_ax20 = My_ax(fig, [0.2875, 0.45, 0.135,  0.225], blank)
-   my_ax30 = My_ax(fig, [0.4325, 0.45, 0.135,  0.225], blank)
-   my_ax40 = My_ax(fig, [0.5775, 0.45, 0.135,  0.225], blank)
-   my_ax50 = My_ax(fig, [0.7225, 0.45, 0.135,  0.225], blank)   
+   # Middle row
+   my_ax10 = My_ax(fig, [0.1425, 0.45, 0.135, 0.225], blank, angle=PA[0])
+   my_ax20 = My_ax(fig, [0.2875, 0.45, 0.135,  0.225], blank, angle=PA[1])
+   my_ax30 = My_ax(fig, [0.4325, 0.45, 0.135,  0.225], blank, angle=PA[2])
+   my_ax40 = My_ax(fig, [0.5775, 0.45, 0.135,  0.225], blank, angle=PA[3])
+   my_ax50 = My_ax(fig, [0.7225, 0.45, 0.135,  0.225], blank, angle=PA[4])   
    
    
 
@@ -738,7 +742,7 @@ def load_images(pgc_lst, Flags=None, INCS=None, filter='g', std_folder='standard
    
    for i in range(len(my_axes)): 
      my_axes[i].set_image(images[i], filter= filter_lst[i], pgc=images_pgc[i], index=images_ind[i], garbage=garbage_lst[i], im_folder=images_folders[i], flag=flags[i], inc=incs[i])   
-   
+
    if any_garbage(garbage_lst):
        garbage_button.ax.imshow(garbage2_icon)
    else:
@@ -749,7 +753,8 @@ def on_click(event):
        global swap, images, images_pgc, images_ind, filter_lst, garbage_lst, my_axes, images_folders
        global nextButton_on, garbage1_icon, garbage2_icon, next_on, next_off,  garbage_button, flags, incs, flagAll
        
-       if not event.dblclick and event.button == 3 and not event.key=='control':
+       
+       if not event.dblclick and event.button == 3 and not event.key=='control' and not event.key=='ctrl+alt' and not event.key=='alt+control':
            
            #print 'dbl click'
            for i in range(len(my_axes)):
@@ -764,6 +769,7 @@ def on_click(event):
                if event.inaxes == my_axes[i].ax:
                    
                    my_axes[i].angle-=5
+                   print '(pgc'+str(my_axes[i].pgc)+')', "PA-5: ", my_axes[i].angle
                    my_axes[i].set_image(images[i], filter=my_axes[i].filter, only_image=True)                   
 
                    
@@ -772,10 +778,27 @@ def on_click(event):
                if event.inaxes == my_axes[i].ax:
 
                    my_axes[i].angle+=5
+                   print '(pgc'+str(my_axes[i].pgc)+')', "PA+5: ", my_axes[i].angle
                    my_axes[i].set_image(images[i], filter=my_axes[i].filter, only_image=True)
                    
                    
-       
+       # Ctrl + Left click (rotate)
+       elif not event.dblclick and event.button == 1 and (event.key=='ctrl+alt' or event.key=='alt+control'):
+           for i in range(len(my_axes)):
+               if event.inaxes == my_axes[i].ax:
+                   
+                   my_axes[i].angle-=1
+                   print '(pgc'+str(my_axes[i].pgc)+')', "PA-1: ", my_axes[i].angle
+                   my_axes[i].set_image(images[i], filter=my_axes[i].filter, only_image=True)                   
+
+                   
+       elif not event.dblclick and event.button == 3 and (event.key=='ctrl+alt' or event.key=='alt+control'):
+           for i in range(len(my_axes)):
+               if event.inaxes == my_axes[i].ax:
+
+                   my_axes[i].angle+=1
+                   print '(pgc'+str(my_axes[i].pgc)+')', "PA+1: ", my_axes[i].angle
+                   my_axes[i].set_image(images[i], filter=my_axes[i].filter, only_image=True)       
        
        # Middle click    
        elif not event.dblclick and event.button == 2:
@@ -874,9 +897,6 @@ def g_func(event):
                   print "Not found: pgc"+str(pgc)+" "+filter+"-band"
                   return 
               
-              if my_axes[j].angle !=0:
-                  new_image = scimisc.imrotate(new_image, my_axes[j].angle, interp='bilinear')
-              
               my_axes[j].set_image(new_image, filter=filter, only_image=True)
               images[j] = new_image
               filter_lst[j] = filter
@@ -902,9 +922,6 @@ def r_func(event):
                   print "Not found: pgc"+str(pgc)+" "+filter+"-band"
                   return
 
-              if my_axes[j].angle !=0:
-                  new_image = scimisc.imrotate(new_image, my_axes[j].angle, interp='bilinear')
-                             
               my_axes[j].set_image(new_image, filter=filter, only_image=True)
               images[j] = new_image
               filter_lst[j] = filter
@@ -929,9 +946,6 @@ def i_func(event):
               if notFound: 
                   print "Not found: pgc"+str(pgc)+" "+filter+"-band"
                   return
-
-              if my_axes[j].angle !=0:
-                  new_image = scimisc.imrotate(new_image, my_axes[j].angle, interp='bilinear')
               
               my_axes[j].set_image(new_image, filter=filter, only_image=True)
               images[j] = new_image
@@ -958,11 +972,7 @@ def gri_func(event):
               if notFound: 
                   print "Not found: pgc"+str(pgc)+" "+filter+"-band"
                   return
-              
-              
-              if my_axes[j].angle !=0:
-                  new_image = scimisc.imrotate(new_image, my_axes[j].angle, interp='bilinear')
-      
+     
               my_axes[j].set_image(new_image, filter=filter, only_image=True)
               images[j] = new_image
               filter_lst[j] = filter
@@ -982,10 +992,14 @@ def press_key(event):
             im = np.flipud(my_axes[j].image)
             my_axes[j].image = im
             my_axes[j].ax.imshow(im)
+            my_axes[j].select(False)
+            swap = -1
         if event.key in ['left', 'right']:
             im = np.fliplr(my_axes[j].image)
             my_axes[j].image = im
-            my_axes[j].ax.imshow(im)    
+            my_axes[j].ax.imshow(im)  
+            my_axes[j].select(False)
+            swap = -1
         draw()
 ############################################    
 def invert_func(event):
@@ -1066,9 +1080,6 @@ def filt_func(label):
                       print "Not found: pgc"+str(pgc)+" "+filter+"-band"
                       return 
                   
-                  if my_axes[j].angle !=0:
-                      new_image = scimisc.imrotate(new_image, my_axes[j].angle, interp='bilinear')
-                  
                   my_axes[j].set_image(new_image, filter=filter, only_image=True)
                   images[j] = new_image
                   filter_lst[j] = filter
@@ -1116,7 +1127,7 @@ def exit_func(event):
 ############################################
 def reset_func(event):
        global images, images_pgc, images_ind, filter_lst, images_folders
-       global images_, images_pgc_, images_ind_, filter_lst_, garbage_lst, garbage_lst_, images_folders_
+       global images_, images_pgc_, images_ind_, filter_lst_, garbage_lst, garbage_lst_, images_folders_, my_axes
        global swap, nextButton_on, flags, flags_, incs, incs_, invert_original
        
        swap = -1
@@ -1137,9 +1148,10 @@ def reset_func(event):
           
           if i<5:
               my_axes[i].invert=invert_original
+              my_axes[i].angle = PA[i] 
           else:
               my_axes[i].invert=False
-           
+          
           my_axes[i].set_image(images[i], filter= filter_lst[i], pgc=images_pgc[i], index=images_ind[i], garbage=False, im_folder=images_folders[i], flag=flags[i], inc=incs[i])
           my_axes[i].select(False)
 ############################################
@@ -1188,24 +1200,27 @@ def main(pgc_lst, Flags=None, INCS=None, filter='g', std_folder='standards/', ga
 ################################################################
 
     
-def display(pgc_lst, Flags=None, INCS=None, filter='g', std_folder='standards/', gal_folder='galaxies/', invert=False, flag_all=False):
+def display(pgc_lst, Flags=None, INCS=None, filter='g', std_folder='standards/', gal_folder='galaxies/', invert=False, flag_all=False, dPA=[0,0,0,0,0]):
    
-   global status, images_ind, garbage_lst, flagAll, invert_original
+   global status, images_ind, garbage_lst, flagAll, invert_original, PA, my_axes
    
    
    flagAll = flag_all
-   make_window()
+   PA  = dPA
+   
+   make_window()    # this also sets PAs (using PA)
    
    invert_original = invert
    main(pgc_lst, Flags=Flags, INCS=INCS, filter=filter, std_folder=std_folder, gal_folder=gal_folder, invert=invert)
    
    # Here is where I control how to exit the GUI
    if sum(images_ind[5:])==10:
-       return images_ind[5:], garbage_lst[5:], status
+       PA = [my_axes[5].angle,my_axes[6].angle,my_axes[7].angle,my_axes[8].angle,my_axes[9].angle]
+       return images_ind[5:], garbage_lst[5:], status, PA
    
    
    
-   return None, None, status 
+   return None, None, status, PA
 
 #################################################################
 

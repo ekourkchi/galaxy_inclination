@@ -55,22 +55,6 @@ Standard galaxies are those with already known inclinations. These galaxies are 
            python inclination_std.py -l list.csv -g ./galaxies -s ./standards -f g -i
            
 
-## The GUI actions
- 
-   - Inclination standard galaxies are denoted by asterisks next to their panel number
-   - To select/unselect a galaxy clicking on it (left click)
-   - If a galaxy is selected, you can swap it with other galaxies just by clicking on their panel or on a blank panel
-   - In order to activate the 'Next' button, you need to move all galaxies from the middle row to the bottom row
-   - To change the wave-band of all images, use the radio buttons
-   - To change the wave-band of an individual image, use a colored button (from the left toolbar) once a panel is selected
-   - You can also use your "right mouse button" to invert an image (once your mouse pointer is on a panel)
-
-   - You can flag out a galaxy (put a galaxy in the trash bin), by selecting a panel and then click on the recycling bin icon. If you repeat the action, you can unflag a panel. Once a galaxy is chosen to be flagged, all the label colors turn into red.
-   - You can also press the middle mouse button to flag/unflag a panel
-   - Once your mouse pointer is on a panel, scrolling up/down using the middle mouse key, you can zoom in/out.
-
-
-
 ## What user sees on each panel
  
  ![Panel Labels](https://user-images.githubusercontent.com/13570487/33522617-f9e62040-d794-11e7-82a8-f9a294169844.png "Panel Labels")
@@ -90,6 +74,32 @@ Standard galaxies are those with already known inclinations. These galaxies are 
 2. Skip: Skips the current galaxy (denoted by '??'). If the user agrees to continue, another galaxy would be chosen.
 3. Redo: Starts the entire process for the current galaxy. 
 4. Next: If activated, closes the GUI and moves onto the next set. If the position of the target galaxy is completely clear, a new galaxy would be drawn randomly.
+
+
+## The GUI actions
+ 
+   - Inclination standard galaxies are denoted by asterisks next to their panel number
+   - To select/unselect a galaxy clicking on it (left click)
+   - If a galaxy is selected, you can swap it with other galaxies just by clicking on their panel or on a blank panel
+   - In order to activate the 'Next' button, you need to move all galaxies from the middle row to the bottom row
+   - To change the wave-band of all images, use the radio buttons
+   - To change the wave-band of an individual image, use a colored button (from the left toolbar) once a panel is selected
+   - You can also use your "right mouse button" to invert an image (once your mouse pointer is on a panel)
+
+   - You can flag out a galaxy (put a galaxy in the trash bin), by selecting a panel and then click on the recycling bin icon. If you repeat the action, you can unflag a panel. Once a galaxy is chosen to be flagged, all the label colors turn into red.
+   - You can also press the middle mouse button to flag/unflag a panel
+   - Once your mouse pointer is on a panel, scrolling up/down using the middle mouse key, you can zoom in/out.
+   
+   ### Extra GUI features
+   
+   ![GUI Rotation DEMO](https://user-images.githubusercontent.com/13570487/33802665-2568c232-dd20-11e7-927e-e39c28e4a2bc.png "GUI Rotation DEMO")
+   
+   - Hold the "Control" key on your keyboard, and click on a panel to rotate its image by (+/-)5 degrees. Use right/left mouse buttons to control the rotation direction, i.e. clockwise or counter clockwise.
+   - To fine tune the Position Angles (PAs), hold both "Control" and "Alt" keys together, and click on a panel to make a rotation by (+/-)1 degrees.
+   - All modifications to the Position Angles would be recorded in the output file and they become permanent. This means that once you rotate a galaxy, you will always see the galaxy in its rotated state. 
+   - To up/down flipping, select an image by clicking on its panel and then use the up/down arrow keys on your keyboard. These changes are temporary and would not be saved.
+   - To left/right flipping, select an image by clicking on its panel and then use the left/right arrow keys on your keyboard. These changes are temporary and would not be saved.
+
 
 ## FAQ
  
@@ -122,10 +132,7 @@ Standard galaxies are those with already known inclinations. These galaxies are 
            Number of remaining galaxies:  ###
            Do you want to continue? [Y/n] y
 
-    
-    
-    
-    
+
 - - - -
  * Copyright 2017
 

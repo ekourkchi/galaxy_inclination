@@ -657,7 +657,7 @@ if __name__ == '__main__':
        unexpected = False
        
        while status==2: # redo
-           if True: #try: 
+           try: 
              list, status = insert_value(list, value, 0, N_max, N_max)
              if value.flag > 0 :   # flagged
                  print
@@ -669,10 +669,10 @@ if __name__ == '__main__':
                        value.reason = choice 
                        print "pgc"+str(value.pgc)+' was flagged successfully ...'
                        list = insert_lst(list, value, 0)
-           #except:
-             #print "GUI was closed unexpectedly ..."
-             #unexpected = True
-             #status=0
+           except:
+             print "GUI was closed unexpectedly ..."
+             unexpected = True
+             status=0
            
 
        if status<2 and not unexpected:   #  1:flag, 0:done

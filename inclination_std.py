@@ -226,6 +226,8 @@ def listWrite(outfile, list):
           if p==NoGals:
               inc_piv_top=100
   ################### END - Modifying inclinations
+  
+  
           
 
   flagged_lst = []
@@ -233,10 +235,26 @@ def listWrite(outfile, list):
   for i in range(NoGals):
       galaxy = list[i]
       if galaxy.flag<=0:
-         myTable.add_row([galaxy.pgc, galaxy.inc, galaxy.flag, galaxy.sort, galaxy.reason, galaxy.dPA, galaxy.user])
          unflagged_lst.append(galaxy)
       else:
          flagged_lst.append(galaxy)
+
+  
+  incls = []
+  for i in range(len(unflagged_lst)):
+      galaxy = unflagged_lst[i]
+      incls.append(galaxy.inc)
+  incls=np.asarray(incls)
+  indices = np.argsort(incls, kind='mergesort')
+
+  unflagged_lst_sort = []
+  for i in range(len(indices)):
+    unflagged_lst_sort.append(unflagged_lst[indices[i]])
+  unflagged_lst = unflagged_lst_sort
+  
+  for i in range(len(unflagged_lst)):
+      galaxy = unflagged_lst[i]
+      myTable.add_row([galaxy.pgc, galaxy.inc, galaxy.flag, galaxy.sort, galaxy.reason, galaxy.dPA, galaxy.user])  
    
          
   for i in range(len(flagged_lst)):

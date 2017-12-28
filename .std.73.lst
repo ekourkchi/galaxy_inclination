@@ -1,74 +1,75 @@
-pgc,inc,flag,sort,reason,user
-41812,32,-1,0,0,standard
-43186,38,-1,0,0,standard
-41934,44,-1,0,0,standard
-32007,45,-1,0,0,standard
-43321,46,-1,0,0,standard
-30308,47,-1,0,0,standard
-36243,48,-1,0,0,standard
-3238,48,-1,0,0,standard
-36706,48,-1,0,0,standard
-65375,50,-1,0,0,standard
-69453,50,-1,0,0,standard
-42510,51,-1,0,0,standard
-42833,53,-1,0,0,standard
-35676,55,-1,0,0,standard
-36875,55,-1,0,0,standard
-62836,56,-1,0,0,standard
-21033,57,-1,0,0,standard
-37617,58,-1,0,0,standard
-38392,58,-1,0,0,standard
-40692,58,-1,0,0,standard
-5619,59,-1,0,0,standard
-45170,59,-1,0,0,standard
-46153,60,-1,0,0,standard
-44182,60,-1,0,0,standard
-40507,61,-1,0,0,standard
-41472,63,-1,0,0,standard
-41517,64,-1,0,0,standard
-71866,65,-1,0,0,standard
-13602,66,-1,0,0,standard
-28120,66,-1,0,0,standard
-34554,66,-1,0,0,standard
-43254,66,-1,0,0,standard
-48307,67,-1,0,0,standard
-26512,69,-1,0,0,standard
-41061,69,-1,0,0,standard
-31090,70,-1,0,0,standard
-57924,70,-1,0,0,standard
-71047,70,-1,0,0,standard
-54177,71,-1,0,0,standard
-69253,71,-1,0,0,standard
-38346,72,-1,0,0,standard
-33705,72,-1,0,0,standard
-14236,73,-1,0,0,standard
-70304,74,-1,0,0,standard
-33385,74,-1,0,0,standard
-30197,75,-1,0,0,standard
-60921,76,-1,0,0,standard
-35347,77,-1,0,0,standard
-38370,77,-1,0,0,standard
-39028,78,-1,0,0,standard
-1851,79,-1,0,0,standard
-5702,80,-1,0,0,standard
-40095,80,-1,0,0,standard
-37036,81,-1,0,0,standard
-38283,81,-1,0,0,standard
-43601,82,-1,0,0,standard
-28186,83,-1,0,0,standard
-31154,85,-1,0,0,standard
-31677,85,-1,0,0,standard
-40105,85,-1,0,0,standard
-2789,86,-1,0,0,standard
-31995,86,-1,0,0,standard
-36343,86,-1,0,0,standard
-36699,86,-1,0,0,standard
-39241,86,-1,0,0,standard
-37691,89,-1,0,0,standard
-2865,90,-1,0,0,standard
-36431,90,-1,0,0,standard
-37697,90,-1,0,0,standard
-38795,90,-1,0,0,standard
-38988,90,-1,0,0,standard
-39422,90,-1,0,0,standard
-40201,90,-1,0,0,standard
+    pgc ,  inc , flag , sort , reason , dPA ,     user
+  41812 , 32.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  43186 , 38.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  41934 , 44.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  32007 , 45.0 ,   -1 ,    0 ,      0 ,  -1 , standard
+  43321 , 46.0 ,   -1 ,    0 ,      0 ,  -3 , standard  
+  30308 , 47.0 ,   -1 ,    0 ,      0 ,   5 , standard  
+  36706 , 48.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  36243 , 48.0 ,   -1 ,    0 ,      0 ,  15 , standard
+   3238 , 48.0 ,   -1 ,    0 ,      0 ,   6 , standard  
+  65375 , 50.0 ,   -1 ,    0 ,      0 ,   4 , standard
+  69453 , 50.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  42510 , 51.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  42833 , 53.0 ,   -1 ,    0 ,      0 ,   6 , standard
+  35676 , 55.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  36875 , 55.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  62836 , 56.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  21033 , 57.0 ,   -1 ,    0 ,      0 , -16 , standard
+  37617 , 58.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  38392 , 58.0 ,   -1 ,    0 ,      0 ,  -1 , standard
+  40692 , 58.0 ,   -1 ,    0 ,      0 ,   0 , standard
+   5619 , 59.0 ,   -1 ,    0 ,      0 ,   5 , standard
+  45170 , 59.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  46153 , 60.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  44182 , 60.0 ,   -1 ,    0 ,      0 ,   1 , standard
+  40507 , 61.0 ,   -1 ,    0 ,      0 ,   5 , standard
+  41472 , 63.0 ,   -1 ,    0 ,      0 ,  -5 , standard
+  41517 , 64.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  71866 , 65.0 ,   -1 ,    0 ,      0 ,  -4 , standard
+  28120 , 66.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  13602 , 66.0 ,   -1 ,    0 ,      0 ,   1 , standard
+  34554 , 66.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  43254 , 66.0 ,   -1 ,    0 ,      0 ,   3 , standard
+  48307 , 67.0 ,   -1 ,    0 ,      0 ,   2 , standard  
+  26512 , 69.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  41061 , 69.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  31090 , 70.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  57924 , 70.0 ,   -1 ,    0 ,      0 ,  -1 , standard
+  71047 , 70.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  54177 , 71.0 ,   -1 ,    0 ,      0 ,  -4 , standard
+  69253 , 71.0 ,   -1 ,    0 ,      0 ,   0 , standard   
+  38346 , 72.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  33705 , 72.0 ,   -1 ,    0 ,      0 ,  -2 , standard
+  14236 , 73.0 ,   -1 ,    0 ,      0 ,  -6 , standard
+  70304 , 74.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  33385 , 74.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  30197 , 75.0 ,   -1 ,    0 ,      0 ,  -4 , standard
+  60921 , 76.0 ,   -1 ,    0 ,      0 ,   6 , standard
+  35347 , 77.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  38370 , 77.0 ,   -1 ,    0 ,      0 ,  -1 , standard
+  39028 , 78.0 ,   -1 ,    0 ,      0 ,  -3 , standard  
+   1851 , 79.0 ,   -1 ,    0 ,      0 ,   2 , standard
+   5702 , 80.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  40095 , 80.0 ,   -1 ,    0 ,      0 ,   0 , standard      
+  38283 , 81.0 ,   -1 ,    0 ,      0 ,   0 , standard   
+  37036 , 81.0 ,   -1 ,    0 ,      0 ,  -1 , standard
+  43601 , 82.0 ,   -1 ,    0 ,      0 ,   1 , standard
+  28186 , 83.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  40105 , 85.0 ,   -1 ,    0 ,      0 ,  -1 , standard
+  31677 , 85.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  31154 , 85.0 ,   -1 ,    0 ,      0 ,   0 , standard  
+   2789 , 86.0 ,   -1 ,    0 ,      0 ,   1 , standard
+  31995 , 86.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  36699 , 86.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  36343 , 86.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  39241 , 86.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  37691 , 89.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  37697 , 90.0 ,   -1 ,    0 ,      0 ,   0 , standard
+   2865 , 90.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  38988 , 90.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  40201 , 90.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  38795 , 90.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  36431 , 90.0 ,   -1 ,    0 ,      0 ,   0 , standard
+  39422 , 90.0 ,   -1 ,    0 ,      0 ,   0 , standard
+

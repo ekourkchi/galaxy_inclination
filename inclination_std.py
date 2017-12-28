@@ -189,7 +189,7 @@ def listWrite(outfile, list):
   
   for i in range(NoGals):
       galaxy = list[i]
-      if (galaxy.inc<inc_piv_top or galaxy.inc>inc_piv_bot or galaxy.inc<inc_piv) and galaxy.flag==0:
+      if galaxy.flag==0 and (galaxy.inc<inc_piv_top or galaxy.inc>inc_piv_bot or galaxy.inc<inc_piv):
             
             p = i-1
             inc1 = -1
@@ -216,12 +216,14 @@ def listWrite(outfile, list):
             inc_piv = galaxy.inc
             
       if galaxy.flag==-1:  
-          inc_piv_top = galaxy.inc
+          if galaxy.inc>=inc_piv_top: 
+             inc_piv_top = galaxy.inc
           p = i+1
           while p<NoGals:
               if list[p].flag==-1:
-                  inc_piv_bot=list[p].inc
-                  break
+                  if list[p].inc<=inc_piv_bot: 
+                     inc_piv_bot=list[p].inc
+                     break
               p+=1 
           if p==NoGals:
               inc_piv_top=100

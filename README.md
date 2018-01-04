@@ -98,6 +98,11 @@ Standard galaxies are those with already known inclinations. These galaxies are 
    - To fine tune the Position Angles (PAs), hold both "Control" and "Alt" keys together, and click on a panel to make a rotation by (+/-)1 degrees.
    - All modifications to the Position Angles would be recorded in the output file and they become permanent. This means that once you rotate a galaxy, you will always see the galaxy in its rotated state. 
    - To (right/left) up/down flipping, select an image by clicking on its panel and then use the (right/left) up/down arrow keys on your keyboard. These changes are temporary and would not be saved.
+   
+   ![Rotation Buttons](https://user-images.githubusercontent.com/13570487/34551536-0cdc9542-f0bf-11e7-8da9-7e225c09b778.png "GUI rotation buttons")
+   
+   - You can also use the rotation buttons, in order to rotate the selected image. To make 5 or 1 degree(s) counter clockwise rotations, use "<<" or "<", respectively. Use ">>" or ">" for clockwise rotations.
+   
 
 
 

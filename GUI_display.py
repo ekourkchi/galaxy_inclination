@@ -507,6 +507,11 @@ garbage_button = None
 garbage1_icon = None
 garbage2_icon = None
 
+rotCWW_button = None
+rotCW_button = None
+rotCCWW_button = None
+rotCCW_button = None
+
 PA=[0,0,0,0,0]
 ############################################
 def any_garbage(garbage_lst):
@@ -525,7 +530,7 @@ def make_window():
    global swap, images, images_pgc, images_ind, images_buffer, images_folders, images_folders_, images_names, filter_lst, images_, images_pgc_, images_ind_, filter_lst_, garbage_lst, garbage_lst_
    global nextButton_on, axes_lst, my_axes
    global next_button, info_txt, reset_button, radio, fig
-   global g_button, r_button, i_button, gri_button, invert_button, garbage_button, skip_button, redo_button, exit_button
+   global g_button, r_button, i_button, gri_button, invert_button, garbage_button, skip_button, redo_button, exit_button, rotCWW_button, rotCW_button, rotCCWW_button, rotCCW_button
    global garbage1_icon, garbage2_icon, next_on, next_off,  flags, flags_, incs, incs_, PA
    
    mpl.rcParams['toolbar'] = 'None'
@@ -669,8 +674,21 @@ def make_window():
    gri_button = Button(resetax, 'gri', color='brown', hovercolor='brown')      
    
    resetax = axes([0.03, 0.51, 0.07, 0.05])
-   invert_button = Button(resetax, 'invert', color='darkgrey', hovercolor='darkgrey')      
+   invert_button = Button(resetax, 'invert', color='darkgrey', hovercolor='darkgrey')     
+   
+    
+   resetax = axes([0.55, 0.41, 0.03, 0.03])
+   rotCWW_button = Button(resetax, '>>', color='blue', hovercolor='blue')
+   
+   resetax = axes([0.515, 0.41, 0.03, 0.03])
+   rotCW_button = Button(resetax, '>', color='blue', hovercolor='blue')
 
+   resetax = axes([0.42, 0.41, 0.03, 0.03])
+   rotCCWW_button = Button(resetax, '<<', color='blue', hovercolor='blue')
+   
+   resetax = axes([0.455, 0.41, 0.03, 0.03])
+   rotCCW_button = Button(resetax, '<', color='blue', hovercolor='blue')
+   
 ############################################
 
 def load_images(pgc_lst, Flags=None, INCS=None, filter='g', std_folder='standards/', gal_folder='galaxies/', invert=False):
@@ -1018,7 +1036,59 @@ def invert_func(event):
           draw()  
           
 ############################################
-          
+def rotCCWW_func(event):
+      global swap, images, images_pgc, images_ind, images_buffer, images_folders, images_folders_, images_names, filter_lst, my_axes
+      
+      if swap>=0:
+        
+        i = swap
+        if my_axes[i].index>-1:
+           my_axes[i].angle-=5
+           print '(pgc'+str(my_axes[i].pgc)+')', "PA-5: ", my_axes[i].angle
+           my_axes[i].set_image(images[i], filter=my_axes[i].filter, only_image=True)                   
+      
+      draw()   
+############################################
+
+def rotCCW_func(event):
+      global swap, images, images_pgc, images_ind, images_buffer, images_folders, images_folders_, images_names, filter_lst, my_axes
+      
+      if swap>=0:
+        
+        i = swap
+        if my_axes[i].index>-1:
+           my_axes[i].angle-=1
+           print '(pgc'+str(my_axes[i].pgc)+')', "PA-1: ", my_axes[i].angle
+           my_axes[i].set_image(images[i], filter=my_axes[i].filter, only_image=True)                   
+      
+      draw()   
+############################################
+def rotCWW_func(event):
+      global swap, images, images_pgc, images_ind, images_buffer, images_folders, images_folders_, images_names, filter_lst, my_axes
+      
+      if swap>=0:
+        
+        i = swap
+        if my_axes[i].index>-1:
+           my_axes[i].angle+=5
+           print '(pgc'+str(my_axes[i].pgc)+')', "PA+5: ", my_axes[i].angle
+           my_axes[i].set_image(images[i], filter=my_axes[i].filter, only_image=True)                   
+      
+      draw()   
+############################################
+def rotCW_func(event):
+      global swap, images, images_pgc, images_ind, images_buffer, images_folders, images_folders_, images_names, filter_lst, my_axes
+      
+      if swap>=0:
+        
+        i = swap
+        if my_axes[i].index>-1:
+           my_axes[i].angle+=1
+           print '(pgc'+str(my_axes[i].pgc)+')', "PA+1: ", my_axes[i].angle
+           my_axes[i].set_image(images[i], filter=my_axes[i].filter, only_image=True)                   
+      
+      draw()         
+############################################
 def garbage_func(event):
     
       global swap, images, images_pgc, images_ind, images_buffer, images_folders, images_folders_, images_names, filter_lst, my_axes, garbage1_icon, garbage2_icon, next_on, next_off,  garbage_button
@@ -1164,7 +1234,7 @@ def main(pgc_lst, Flags=None, INCS=None, filter='g', std_folder='standards/', ga
    global swap, images, images_pgc, images_ind, images_buffer, images_folders, images_folders_, images_names, filter_lst, images_, images_pgc_, images_ind_, filter_lst_, garbage_lst, garbage_lst_
    global nextButton_on, axes_lst, my_axes, status
    global next_button, info_txt, reset_button, radio, fig
-   global g_button, r_button, i_button, gri_button, invert_button, garbage_button, skip_button, redo_button, exit_button
+   global g_button, r_button, i_button, gri_button, invert_button, garbage_button, skip_button, redo_button, exit_button, rotCWW_button, rotCW_button, rotCCWW_button, rotCCW_button
 
    
    #pgc_lst = [55981, 91643, 12041, 37617, 50942]
@@ -1187,7 +1257,12 @@ def main(pgc_lst, Flags=None, INCS=None, filter='g', std_folder='standards/', ga
    invert_button.on_clicked(invert_func)
    garbage_button.on_clicked(garbage_func)
    
-
+   rotCWW_button.on_clicked(rotCWW_func)
+   rotCW_button.on_clicked(rotCW_func)
+   rotCCWW_button.on_clicked(rotCCWW_func)
+   rotCCW_button.on_clicked(rotCCW_func)
+   
+   
    fig.canvas.mpl_connect('button_press_event', on_click)
    fig.canvas.mpl_connect('scroll_event', scroll_event)
    fig.canvas.mpl_connect('key_press_event', press_key)

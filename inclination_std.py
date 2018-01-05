@@ -91,8 +91,8 @@ def query_option():
         
         print
         print "What is the reason for flagging this object (choose one)?"
-        print "1 - Wrong Position Angle"
-        print "2 - Too faint image"
+        print "1 - Not Sure, use b/a for inclination"
+        print "2 - Get a better image"
         print "3 - Ambiguous, bad HI profile, not a good TF galaxy"
         print "4 - Cancel"
         print 
@@ -145,7 +145,7 @@ def query_yes_no(question, default="yes"):
 # the context of this code
 class GalxyNode:
   # Class constructor
-  def __init__(self, pgc, inc=-1, flag=0, sort=0, reason=0, user='nan', dPA=0):
+  def __init__(self, pgc, inc=-1, flag=0, sort=0, reason=0, user='nan', dPA=0, zoom=1.):
       
       self.pgc    = pgc     # PGC ID
       self.inc    = inc     # inclination (degree)
@@ -158,6 +158,7 @@ class GalxyNode:
       self.dPA    = dPA     # difference in Position Angle (degree)
                             # This tells the GUI how much to rotate each galaxy
                             # when displaying
+      self.zoom   = zoom    # zoom status of the frame
 #################################
 def listWrite(outfile, list):
    
@@ -171,6 +172,7 @@ def listWrite(outfile, list):
   myTable.add_column(Column(data=empty,name='sort', dtype=np.dtype(int)))
   myTable.add_column(Column(data=empty,name='reason', dtype=np.dtype(int)))
   myTable.add_column(Column(data=empty,name='dPA', dtype=np.dtype(int)))
+  myTable.add_column(Column(data=empty,name='zoom', format='%0.5f'))
   myTable.add_column(Column(data=empty,name='user', dtype='S16'))
   
   ################### BEGIN - Modifying inclinations using standard inclinations
@@ -256,12 +258,12 @@ def listWrite(outfile, list):
   
   for i in range(len(unflagged_lst)):
       galaxy = unflagged_lst[i]
-      myTable.add_row([galaxy.pgc, galaxy.inc, galaxy.flag, galaxy.sort, galaxy.reason, galaxy.dPA, galaxy.user])  
+      myTable.add_row([galaxy.pgc, galaxy.inc, galaxy.flag, galaxy.sort, galaxy.reason, galaxy.dPA, galaxy.zoom, galaxy.user])  
    
          
   for i in range(len(flagged_lst)):
       galaxy = flagged_lst[i]
-      myTable.add_row([galaxy.pgc, galaxy.inc, galaxy.flag, galaxy.sort, galaxy.reason, galaxy.dPA, galaxy.user])
+      myTable.add_row([galaxy.pgc, galaxy.inc, galaxy.flag, galaxy.sort, galaxy.reason, galaxy.dPA, galaxy.zoom, galaxy.user])
   
   myTable.write(outfile, format='ascii.fixed_width',delimiter=',', bookend=False, overwrite=True)
   
@@ -413,10 +415,10 @@ def  disp(list, I, value, N_max, sort=True):
     Flags = [lst[0].flag,lst[1].flag,lst[2].flag,lst[3].flag,lst[4].flag]
     INCS  = [lst[0].inc,lst[1].inc,lst[2].inc,lst[3].inc,lst[4].inc]
     PAA   = [lst[0].dPA,lst[1].dPA,lst[2].dPA,lst[3].dPA,lst[4].dPA]
-    ind, flag, status, PA =  display(galaxies, Flags=Flags, INCS=INCS, filter=filter, std_folder=std_folder, gal_folder=gal_folder, invert=invert, flag_all=flag_all, dPA=PAA)
+    ZOOM  = [lst[0].zoom,lst[1].zoom,lst[2].zoom,lst[3].zoom,lst[4].zoom]
+    ind, flag, status, PA, ZOO =  display(galaxies, Flags=Flags, INCS=INCS, filter=filter, std_folder=std_folder, gal_folder=gal_folder, invert=invert, flag_all=flag_all, dPA=PAA, ZOOM=ZOOM)
     
-      
-          
+         
     if status>0:
         return 0, True, [0,1,2,3], status
     
@@ -424,6 +426,7 @@ def  disp(list, I, value, N_max, sort=True):
 
     for i in range(5):
         lst[ind[i]].dPA = PA[i]
+        lst[ind[i]].zoom = ZOO[i]
     
     ## Updating the list based on what users think
     m = 0
@@ -634,7 +637,11 @@ if __name__ == '__main__':
       print "[Warning] OLD output file, it'll be updated ..." 
       dPA    = inc*0.
    
-   
+   try:
+      zoom = mytable['zoom']
+   except:
+      print "[Warning] OLD output file, it'll be updated ..." 
+      zoom    = inc*0.+1.0   
    
    for i in range(len(user)):
        user[i] = ''.join(user[i].split())
@@ -645,7 +652,7 @@ if __name__ == '__main__':
    N_max = 0
    for i in range(n):
        if flag[i]<=0: N_max+=1
-       list.append(GalxyNode(pgc[i],inc=inc[i], flag=flag[i], sort=sort[i], reason=reason[i], user=user[i], dPA=dPA[i]))
+       list.append(GalxyNode(pgc[i],inc=inc[i], flag=flag[i], sort=sort[i], reason=reason[i], user=user[i], dPA=dPA[i], zoom=zoom[i]))
        
 
    mytable = np.genfromtxt(listName , delimiter=',', filling_values=None, names=True, dtype=None )
@@ -672,6 +679,11 @@ if __name__ == '__main__':
        n = len(list)
        N = len(PGC)
        i = int(np.floor(uniform(0,N)))
+       if PGC[i] in pgc:
+           print "[Warning] pgc"+str(PGC[i])+' is already in the output list ...'
+           PGC.pop(i)
+           continue
+       
        value = GalxyNode(PGC[i], user=username)
        status= 2 # 3:exit, 2:redo, 1:flag, 0:done
        unexpected = False

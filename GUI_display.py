@@ -77,6 +77,10 @@ def swap_zoom_prop(myAX1, myAX2):
     tmp = myAX2.invert
     myAX2.invert = myAX1.invert
     myAX1.invert = tmp    
+    
+    tmp = myAX2.zoom
+    myAX2.zoom = myAX1.zoom
+    myAX1.zoom = tmp      
 #################################################
 class ImDisp:
   
@@ -134,8 +138,10 @@ class ImDisp:
       self.y1 = self.Ymin
     if self.y2 > self.Ymax:
       self.y2 = self.Ymax
-    ###
     
+    ###
+    return self.x1, self.x2, self.y1, self.y2
+
   def zoom_IN(self, xc=None, yc=None, ratio=0.9):
     
     if xc== None:
@@ -174,7 +180,7 @@ class ImDisp:
 #################################################
 class My_ax:
     
-    def __init__(self, fig, position, image, filter='', pgc=0, index=-2, im_folder='', angle=0):
+    def __init__(self, fig, position, image, filter='', pgc=0, index=-2, im_folder='', angle=0, zoom=1):
         
         self.garbage = False
         self.position = position
@@ -202,6 +208,7 @@ class My_ax:
         
         self.selected = False
         self.angle = angle
+        self.zoom  = zoom
         self.invert = False
         
         self.pgc = pgc
@@ -221,7 +228,9 @@ class My_ax:
         y_min = 0
         
         self.disp = ImDisp(x_min, x_max, y_min, y_max)
-        
+        i1, i2, j1, j2 = self.disp.zoom(ratio=zoom)
+        self.ax.set_xlim(i1,i2)
+        self.ax.set_ylim(j1,j2)
         
         if pgc>0:
             self.pgc_txt.set_text('pgc: '+str(pgc))
@@ -512,7 +521,8 @@ rotCW_button = None
 rotCCWW_button = None
 rotCCW_button = None
 
-PA=[0,0,0,0,0]
+PA   = [0,0,0,0,0]
+Zoom = [1,1,1,1,1]
 ############################################
 def any_garbage(garbage_lst):
     
@@ -531,7 +541,7 @@ def make_window():
    global nextButton_on, axes_lst, my_axes
    global next_button, info_txt, reset_button, radio, fig
    global g_button, r_button, i_button, gri_button, invert_button, garbage_button, skip_button, redo_button, exit_button, rotCWW_button, rotCW_button, rotCCWW_button, rotCCW_button
-   global garbage1_icon, garbage2_icon, next_on, next_off,  flags, flags_, incs, incs_, PA
+   global garbage1_icon, garbage2_icon, next_on, next_off,  flags, flags_, incs, incs_, PA, Zoom
    
    mpl.rcParams['toolbar'] = 'None'
    
@@ -596,11 +606,11 @@ def make_window():
    my_ax5 = My_ax(fig, [0.79, 0.1, 0.18,  0.3], blank)
    
    # Middle row
-   my_ax10 = My_ax(fig, [0.1425, 0.45, 0.135, 0.225], blank, angle=PA[0])
-   my_ax20 = My_ax(fig, [0.2875, 0.45, 0.135,  0.225], blank, angle=PA[1])
-   my_ax30 = My_ax(fig, [0.4325, 0.45, 0.135,  0.225], blank, angle=PA[2])
-   my_ax40 = My_ax(fig, [0.5775, 0.45, 0.135,  0.225], blank, angle=PA[3])
-   my_ax50 = My_ax(fig, [0.7225, 0.45, 0.135,  0.225], blank, angle=PA[4])   
+   my_ax10 = My_ax(fig, [0.1425, 0.45, 0.135,  0.225], blank, angle=PA[0], zoom=Zoom[0])
+   my_ax20 = My_ax(fig, [0.2875, 0.45, 0.135,  0.225], blank, angle=PA[1], zoom=Zoom[1])
+   my_ax30 = My_ax(fig, [0.4325, 0.45, 0.135,  0.225], blank, angle=PA[2], zoom=Zoom[2])
+   my_ax40 = My_ax(fig, [0.5775, 0.45, 0.135,  0.225], blank, angle=PA[3], zoom=Zoom[3])
+   my_ax50 = My_ax(fig, [0.7225, 0.45, 0.135,  0.225], blank, angle=PA[4], zoom=Zoom[4])   
    
    
 
@@ -1121,12 +1131,15 @@ def scroll_event(event):
             if event.key is None and event.button == 'up':
 
                 i1, i2, j1, j2 = my_axes[i].disp.zoom_OUT()
+                my_axes[i].zoom *= (10./9)
+                if my_axes[i].zoom>1: my_axes[i].zoom=1.
                 my_axes[i].ax.set_xlim(i1,i2)
                 my_axes[i].ax.set_ylim(j1,j2)
                 draw()
             elif event.key is None and event.button == 'down':
 
                 i1, i2, j1, j2 = my_axes[i].disp.zoom_IN()
+                my_axes[i].zoom *= 0.9
                 my_axes[i].ax.set_xlim(i1,i2)
                 my_axes[i].ax.set_ylim(j1,j2)
                 draw()
@@ -1275,13 +1288,14 @@ def main(pgc_lst, Flags=None, INCS=None, filter='g', std_folder='standards/', ga
 ################################################################
 
     
-def display(pgc_lst, Flags=None, INCS=None, filter='g', std_folder='standards/', gal_folder='galaxies/', invert=False, flag_all=False, dPA=[0,0,0,0,0]):
+def display(pgc_lst, Flags=None, INCS=None, filter='g', std_folder='standards/', gal_folder='galaxies/', invert=False, flag_all=False, dPA=[0,0,0,0,0], ZOOM=[1,1,1,1,1]):
    
-   global status, images_ind, garbage_lst, flagAll, invert_original, PA, my_axes
+   global status, images_ind, garbage_lst, flagAll, invert_original, PA, my_axes, Zoom
    
    
    flagAll = flag_all
-   PA  = dPA
+   PA   = dPA
+   Zoom = ZOOM
    
    make_window()    # this also sets PAs (using PA)
    
@@ -1291,11 +1305,12 @@ def display(pgc_lst, Flags=None, INCS=None, filter='g', std_folder='standards/',
    # Here is where I control how to exit the GUI
    if sum(images_ind[5:])==10:
        PA = [my_axes[5].angle,my_axes[6].angle,my_axes[7].angle,my_axes[8].angle,my_axes[9].angle]
-       return images_ind[5:], garbage_lst[5:], status, PA
+       Zoom = [my_axes[5].zoom,my_axes[6].zoom,my_axes[7].zoom,my_axes[8].zoom,my_axes[9].zoom]
+       return images_ind[5:], garbage_lst[5:], status, PA, Zoom
    
    
    
-   return None, None, status, PA
+   return None, None, status, PA, Zoom
 
 #################################################################
 

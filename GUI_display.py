@@ -521,6 +521,9 @@ rotCW_button = None
 rotCCWW_button = None
 rotCCW_button = None
 
+udArrow_button = None
+lrArrow_button = None
+
 PA   = [0,0,0,0,0]
 Zoom = [1,1,1,1,1]
 ############################################
@@ -540,7 +543,7 @@ def make_window():
    global swap, images, images_pgc, images_ind, images_buffer, images_folders, images_folders_, images_names, filter_lst, images_, images_pgc_, images_ind_, filter_lst_, garbage_lst, garbage_lst_
    global nextButton_on, axes_lst, my_axes
    global next_button, info_txt, reset_button, radio, fig
-   global g_button, r_button, i_button, gri_button, invert_button, garbage_button, skip_button, redo_button, exit_button, rotCWW_button, rotCW_button, rotCCWW_button, rotCCW_button
+   global g_button, r_button, i_button, gri_button, invert_button, garbage_button, skip_button, redo_button, exit_button, rotCWW_button, rotCW_button, rotCCWW_button, rotCCW_button, lrArrow_button, udArrow_button
    global garbage1_icon, garbage2_icon, next_on, next_off,  flags, flags_, incs, incs_, PA, Zoom
    
    mpl.rcParams['toolbar'] = 'None'
@@ -698,6 +701,19 @@ def make_window():
    
    resetax = axes([0.455, 0.41, 0.03, 0.03])
    rotCCW_button = Button(resetax, '<', color='blue', hovercolor='blue')
+   
+   
+   tmp = Image.open('logo/two-opposite-arrows.png')
+   tmp_rsize = tmp.resize((tmp.size[0],tmp.size[1]))
+   up_arrow_icon = np.asarray(tmp_rsize)
+   resetax = axes([0.46, 0.03, 0.05, 0.05])
+   lrArrow_button = Button(resetax, '', color='black', image=up_arrow_icon)
+   
+   tmp = Image.open('logo/up-arrow-opposite-to-down.png')
+   tmp_rsize = tmp.resize((tmp.size[0],tmp.size[1]))
+   up_arrow_icon = np.asarray(tmp_rsize)
+   resetax = axes([0.50, 0.03, 0.05, 0.05])
+   udArrow_button = Button(resetax, '', color='black', image=up_arrow_icon)
    
 ############################################
 
@@ -1029,7 +1045,37 @@ def press_key(event):
             my_axes[j].select(False)
             swap = -1
         draw()
-############################################    
+############################################  
+def lr_func(event):
+    
+    global swap, images, images_pgc, images_ind, images_buffer, images_folders, images_folders_, images_names, filter_lst, my_axes
+        
+    if swap>=0:
+        j = swap
+        if True: # ['left', 'right']
+            im = np.fliplr(my_axes[j].image)
+            my_axes[j].image = im
+            my_axes[j].ax.imshow(im)  
+            my_axes[j].select(False)
+            swap = -1    
+    
+        draw()    
+############################################  
+def up_func(event):
+    
+    global swap, images, images_pgc, images_ind, images_buffer, images_folders, images_folders_, images_names, filter_lst, my_axes
+        
+    if swap>=0:
+        j = swap
+        if True: # ['up', 'down']
+            im = np.flipud(my_axes[j].image)
+            my_axes[j].image = im
+            my_axes[j].ax.imshow(im)
+            my_axes[j].select(False)
+            swap = -1   
+    
+        draw() 
+############################################   
 def invert_func(event):
     
       global swap, images, images_pgc, images_ind, images_buffer, images_folders, images_folders_, images_names, filter_lst, my_axes
@@ -1247,7 +1293,7 @@ def main(pgc_lst, Flags=None, INCS=None, filter='g', std_folder='standards/', ga
    global swap, images, images_pgc, images_ind, images_buffer, images_folders, images_folders_, images_names, filter_lst, images_, images_pgc_, images_ind_, filter_lst_, garbage_lst, garbage_lst_
    global nextButton_on, axes_lst, my_axes, status
    global next_button, info_txt, reset_button, radio, fig
-   global g_button, r_button, i_button, gri_button, invert_button, garbage_button, skip_button, redo_button, exit_button, rotCWW_button, rotCW_button, rotCCWW_button, rotCCW_button
+   global g_button, r_button, i_button, gri_button, invert_button, garbage_button, skip_button, redo_button, exit_button, rotCWW_button, rotCW_button, rotCCWW_button, rotCCW_button, udArrow_button, lrArrow_button
 
    
    #pgc_lst = [55981, 91643, 12041, 37617, 50942]
@@ -1275,6 +1321,8 @@ def main(pgc_lst, Flags=None, INCS=None, filter='g', std_folder='standards/', ga
    rotCCWW_button.on_clicked(rotCCWW_func)
    rotCCW_button.on_clicked(rotCCW_func)
    
+   lrArrow_button.on_clicked(lr_func)
+   udArrow_button.on_clicked(up_func)
    
    fig.canvas.mpl_connect('button_press_event', on_click)
    fig.canvas.mpl_connect('scroll_event', scroll_event)

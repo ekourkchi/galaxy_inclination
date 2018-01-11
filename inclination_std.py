@@ -97,7 +97,7 @@ def query_option():
         print "4 - Cancel"
         print 
          
-        sys.stdout.write('Please choose one (1-3): ')
+        sys.stdout.write('Please choose one (1-4): ')
         choice = str(raw_input().lower())
         
         if choice in ['1','2','3','4']:
@@ -323,12 +323,18 @@ def insert_lst(list, value, i, status=0):
 # i_min and i_max define the indices to define the sub-array where the value 
 # would be finally inserted
 # [0 ... i_min-1]   [i_min value i_max]    [i_max+1 ... N-1]
-def insert_value(list, value, i_min, i_max, N_max):
+def insert_value(list, value, i_min, i_max, N_max, Pindex):
     
 
     # base case
     if i_min>=i_max: 
-        return insert_lst(list, value, N_max)          
+        if Pindex>0 and Pindex<4:
+            return insert_lst(list, value, N_max), 0
+        elif i_max == 0 or i_min == N_max:
+            return insert_lst(list, value, N_max), 0
+
+        return insert_value(list, value, i_max, i_max+3, N_max, 4)
+                  
     
 
     # [i_min ... i_max] sub-array should have at least 4 members before adding the value
@@ -340,6 +346,17 @@ def insert_value(list, value, i_min, i_max, N_max):
            if i_max-i_min<3  and i_max+1<N_max:
                i_max+=1
        
+
+    if Pindex>0 and Pindex<4:
+        incs = []
+        ii = i_min
+        while ii<=i_max:
+            incs.append(list[ii].inc)
+            ii+=1
+        if np.std(incs)<=0.5:
+            return insert_lst(list, value, max([(i_min+i_max)/2,N_max-1])), 0
+        
+    
     # recursive case 
     # all the chosen members are next to each other (easy)   
     if i_max-i_min ==3:
@@ -347,8 +364,38 @@ def insert_value(list, value, i_min, i_max, N_max):
        I = [i_min,i_min+1,i_min+2,i_max]
        I = modBoundary(list, I, N_max)
        n, quality, I, status = disp(list, I, value, N_max, sort=True)  # quality=True, I=unchanged
+       if status>0: return list, status
        
-       return insert_lst(list, value, I[0]+n, status=status), status          
+       if (i_min==0 and n==0) or (i_max==N_max-1 and n==4): 
+           return insert_lst(list, value, I[0]+n, status=status), status
+                 
+       if n>0 and n<4:
+           return insert_lst(list, value, I[0]+n, status=status), status 
+       elif n==0:
+           i_max = min([I[0]+5,N_max-1])#
+           inc0 = list[i_max].inc 
+           i_min = i_max-3
+           inc1 = list[i_min].inc
+           while inc1!=-1 and abs(inc1-inc0)<5:
+               i_min=max([i_min-1,0])
+               inc1 = list[i_min].inc
+               if i_min==0: 
+                   return insert_lst(list, value, I[0]+n, status=status), status
+
+       elif n==4:
+           i_min = max([I[3]-5,0])#
+           inc0 = list[i_min].inc 
+           i_max = i_min+3
+           inc1 = list[i_max].inc
+           while abs(inc1-inc0)<5:
+               i_max=min([i_max+1,N_max-1])
+               inc1 = list[i_max].inc
+               print i_max, inc1, N_max-1
+               if i_max==N_max-1: 
+                   return insert_lst(list, value, I[0]+n, status=status), status
+           
+       return insert_value(list, value, i_min, i_max, N_max, n)
+                
         
         
     # recursive case
@@ -387,11 +434,26 @@ def insert_value(list, value, i_min, i_max, N_max):
            i_min = I[n-1]
            i_max = I[n]
        elif n==0:
-           i_max = I[0]
+           i_min = max([i_min,0])
+           i_max = min([I[0]+P/5,N_max-1])
+           inc0 = list[i_max].inc 
+           inc1 = list[i_min].inc
+           while inc1!=-1 and abs(inc1-inc0)<5:
+               i_min=max([i_min-1,0])
+               inc1 = list[i_min].inc
+               if i_min==0: break
+
        elif n==4:
-           i_min = I[3]
+           i_max = min([i_max,N_max-1])
+           i_min = max([I[3]-P/5,0])
+           inc0 = list[i_min].inc
+           inc1 = list[i_max].inc
+           while abs(inc1-inc0)<5:
+               i_max=min([i_max+1,N_max-1])
+               inc1 = list[i_max].inc
+               if i_max==N_max-1: break
        
-       return insert_value(list, value, i_min, i_max, N_max)
+       return insert_value(list, value, i_min, i_max, N_max, n)
         
 
 
@@ -689,8 +751,8 @@ if __name__ == '__main__':
        unexpected = False
        
        while status==2: # redo
-           try: 
-             list, status = insert_value(list, value, 0, N_max, N_max)
+           if True: # try: 
+             list, status = insert_value(list, value, 0, N_max, N_max, 4)
              if value.flag > 0 :   # flagged
                  print
                  print '!!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!'
@@ -701,10 +763,10 @@ if __name__ == '__main__':
                        value.reason = choice 
                        print "pgc"+str(value.pgc)+' was flagged successfully ...'
                        list = insert_lst(list, value, 0)
-           except:
-             print "GUI was closed unexpectedly ..."
-             unexpected = True
-             status=0
+           #except:
+             #print "GUI was closed unexpectedly ..."
+             #unexpected = True
+             #status=0
            
 
        if status<2 and not unexpected:   #  1:flag, 0:done

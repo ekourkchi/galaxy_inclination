@@ -323,7 +323,7 @@ def insert_lst(list, value, i, status=0):
 # i_min and i_max define the indices to define the sub-array where the value 
 # would be finally inserted
 # [0 ... i_min-1]   [i_min value i_max]    [i_max+1 ... N-1]
-def insert_value(list, value, i_min, i_max, N_max, Pindex):
+def insert_value(list, value, i_min, i_max, N_max, Pindex, Allstd=False):
     
 
     # base case
@@ -354,7 +354,8 @@ def insert_value(list, value, i_min, i_max, N_max, Pindex):
             incs.append(list[ii].inc)
             ii+=1
         if np.std(incs)<=0.5:
-            return insert_lst(list, value, max([(i_min+i_max)/2,N_max-1])), 0
+            #print "Entered np.std(incs): ", incs, np.std(incs)
+            return insert_lst(list, value, min([(i_min+i_max)/2,N_max-1])), 0
         
     
     # recursive case 
@@ -416,7 +417,35 @@ def insert_value(list, value, i_min, i_max, N_max, Pindex):
 
        I = [i0,i1,i2,i3]  # I carries the indices of the chosen members form list
        
-       I = modBoundary(list, I, N_max)
+       if Allstd:
+           
+           i0=0;i1=0;i2=0;i3=0
+           
+
+           foo = [7,8,9,10]
+           inc0 = 45.+foo[int(np.floor(uniform(0,4)))]
+           inc1 = inc0+foo[int(np.floor(uniform(0,4)))]
+           inc2 = inc1+foo[int(np.floor(uniform(0,4)))]
+           inc3 = inc2+foo[int(np.floor(uniform(0,4)))]
+           
+           while list[i0].inc<=inc0: i0+=1
+           while list[i1].inc<=inc1: i1+=1
+           while list[i2].inc<=inc2: i2+=1
+           while list[i3].inc<=inc3: i3+=1
+          
+           while list[i0].flag!=-1: i0-=1
+           while list[i1].flag!=-1: i1-=1
+           while list[i2].flag!=-1: i2+=1
+           while list[i3].flag!=-1: i3+=1          
+          
+           #print list[i0].inc,list[i1].inc,list[i2].inc,list[i3].inc
+           #print list[i0].flag,list[i1].flag,list[i2].flag,list[i3].flag
+           #print list[i0].pgc,list[i1].pgc,list[i2].pgc,list[i3].pgc
+           #print inc0, inc1, inc2, inc3
+           I = [i0,i1,i2,i3]
+       
+       else:
+          I = modBoundary(list, I, N_max)
        
        quality = False
        
@@ -601,6 +630,32 @@ def modBoundary(list, I, N_max, mod=False):
 
     I = [i0,i1,i2,i3]
     
+    f0 = list[i0].flag
+    f1 = list[i1].flag
+    f2 = list[i2].flag
+    f3 = list[i3].flag
+    
+    inc0 = list[i0].inc
+    inc1 = list[i1].inc
+    inc2 = list[i2].inc
+    inc3 = list[i3].inc
+    
+    if f0==-1 or f1==-1 or f2==-1 or f3==-1: return I
+
+    if inc0==-1: 
+        while list[i3].flag!=-1: i3+=1
+    elif inc3==90: 
+        while list[i0].flag!=-1: i0-=1
+        
+    else:    
+        LR = int(np.floor(uniform(0,2)))
+        if LR==0:
+            while list[i0].flag!=-1: i0-=1
+        else:
+            while list[i3].flag!=-1: i3+=1
+    
+    I = [i0,i1,i2,i3]
+    
     return I
 ################################################################# 
 def modBoundary_rute(i0,i1,i2,i3,N_max, mod=False):
@@ -752,7 +807,7 @@ if __name__ == '__main__':
        
        while status==2: # redo
            try: 
-             list, status = insert_value(list, value, 0, N_max, N_max, 4)
+             list, status = insert_value(list, value, 0, N_max, N_max, 4, Allstd=True)
              if value.flag > 0 :   # flagged
                  print
                  print '!!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!'
@@ -780,6 +835,7 @@ if __name__ == '__main__':
            print "Number of remaining galaxies: ", len(PGC)
        if m==n+1:
            print "Thanks, pgc"+str(value.pgc)+" ... added successfully"
+           print "Estimated Inclination for pgc"+str(value.pgc)+":  "+str(value.inc)+' [deg]'
            PGC.pop(i)
            PGC_ = np.asarray(PGC)
            

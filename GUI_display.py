@@ -352,7 +352,7 @@ class My_ax:
         
         if self.inc>=0 and self.flag==-1:
             self.inc_txt.set_text(str(self.inc)+r'$^o$')
-        elif self.inc>=0 and self.flag>=0:
+        elif self.inc>=0 and (self.flag>=0 or self.flag==-10):
             self.inc_txt.set_text('('+str(self.inc)+r'$^o )$')    
         else:
             self.inc_txt.set_text('')
@@ -796,7 +796,7 @@ def on_click(event):
        
        global swap, images, images_pgc, images_ind, filter_lst, garbage_lst, my_axes, images_folders
        global nextButton_on, garbage1_icon, garbage2_icon, next_on, next_off,  garbage_button, flags, incs, flagAll
-       
+
        
        if not event.dblclick and event.button == 3 and not event.key=='control' and not event.key=='ctrl+alt' and not event.key=='alt+control':
            
@@ -843,6 +843,7 @@ def on_click(event):
                    my_axes[i].angle+=1
                    print '(pgc'+str(my_axes[i].pgc)+')', "PA+1: ", my_axes[i].angle
                    my_axes[i].set_image(images[i], filter=my_axes[i].filter, only_image=True)       
+       
        
        # Middle click    
        elif not event.dblclick and event.button == 2:

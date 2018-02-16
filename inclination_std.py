@@ -93,14 +93,19 @@ def query_option():
         print "What is the reason for flagging this object (choose one)?"
         print "1 - Not Sure, use b/a for inclination"
         print "2 - Get a better image"
-        print "3 - Ambiguous, bad HI profile, not a good TF galaxy"
-        print "4 - Cancel"
+        print "3 - Not a good TF galaxy"
+        print "4 - Ambiguous, Confused"
+        print "5 - Distorted"
+        print "6 - Bad HI profile"
+        print "7 - More face-on than 45 degrees"
+        print "8 - Not Spiral"
+        print "9 - Cancel"
         print 
          
-        sys.stdout.write('Please choose one (1-4): ')
+        sys.stdout.write('Please choose one (1-9): ')
         choice = str(raw_input().lower())
         
-        if choice in ['1','2','3','4']:
+        if choice in ['1','2','3','4','5','6','7','8','9']:
             return int(choice)
         else:
             sys.stdout.write("Please respond with the option number\n")
@@ -178,7 +183,6 @@ def listWrite(outfile, list):
   ################### BEGIN - Modifying inclinations using standard inclinations
   inc_piv_top = -10
   inc_piv_bot = 100
-  inc_piv = -10
   
   p = 0
   while p<NoGals:
@@ -191,12 +195,12 @@ def listWrite(outfile, list):
   
   for i in range(NoGals):
       galaxy = list[i]
-      if galaxy.flag==0 and (galaxy.inc<inc_piv_top or galaxy.inc>inc_piv_bot or galaxy.inc<inc_piv):
+      if (galaxy.flag==0 or galaxy.flag==-10) and (galaxy.inc<inc_piv_top or galaxy.inc>inc_piv_bot):
             
             p = i-1
             inc1 = -1
             while p>=0:
-                if list[p].inc>0 and list[p].flag<0:
+                if list[p].inc>0 and list[p].flag==-1:
                    inc1 = list[p].inc
                    break
                 p-=1
@@ -204,19 +208,20 @@ def listWrite(outfile, list):
             p = i+1
             inc2 = -1
             while p<NoGals:
-                if list[p].inc>0 and list[p].flag<0:
+                if list[p].inc>0 and list[p].flag==-1:
                    inc2 = list[p].inc
                    break
                 p+=1    
             
-            if inc1!=-1 and inc2!=-1:
+            if inc1!=-1 and inc2!=-1 and galaxy.flag==-10:  # only update the shuffled non-standardsa
+                galinc_old = galaxy.inc
                 galaxy.inc = 0.5*(inc1+inc2)
+                print "Modified Inclination for pgc"+str(galaxy.pgc)+":  "+str(galinc_old)+" --> "+str(galaxy.inc)+' [deg]'
+                galaxy.flag=0
             
             if p==NoGals: 
                 galaxy.inc = inc1  
-            
-            inc_piv = galaxy.inc
-            
+                        
       if galaxy.flag==-1:  
           if galaxy.inc>=inc_piv_top: 
              inc_piv_top = galaxy.inc
@@ -277,7 +282,7 @@ def listWrite(outfile, list):
 # list: the original list
 # value: the new value 
 # i: the index at which the new value would be inserted
-def insert_lst(list, value, i, status=0):
+def insert_lst(list, value, i, status=0, update_inc=True):
     
 
     if status>0:
@@ -290,28 +295,17 @@ def insert_lst(list, value, i, status=0):
     
     if i == 0 : return [value]+list
     
-    p = i-1
-    inc1 = -1
-    while p>=0:
-        if list[p].inc>0 and list[p].flag<0:
-           inc1 = list[p].inc
-           break
-        p-=1
+ 
+    p = max(0,i-1)
+    q = min(i,N-1)
     
-    p = i
-    inc2 = -1
-    while p<N:
-        if list[p].inc>0 and list[p].flag<0:
-           inc2 = list[p].inc
-           break
-        p+=1    
+    inc1 = list[p].inc
+    inc2 = list[q].inc
     
-    if inc1!=-1 and inc2!=-1:
+    if inc1!=-1 and inc2!=-1 and update_inc==True:
         value.inc = 0.5*(inc1+inc2)
     
-    if p==N: 
-        value.inc = inc1
-        
+       
     return list[0:i]+[value]+list[i:N]
 
 ###########################
@@ -353,9 +347,9 @@ def insert_value(list, value, i_min, i_max, N_max, Pindex, Allstd=False):
         while ii<=i_max:
             incs.append(list[ii].inc)
             ii+=1
-        if np.std(incs)<=0.5:
-            #print "Entered np.std(incs): ", incs, np.std(incs)
-            return insert_lst(list, value, min([(i_min+i_max)/2,N_max-1])), 0
+        if np.max(incs)-np.min(incs)<1.0:
+            value.inc = 0.5*(list[i_min].inc+list[i_max].inc)
+            return insert_lst(list, value, min([(i_min+i_max)/2,N_max-1]), update_inc=False), 0
         
     
     # recursive case 
@@ -526,8 +520,9 @@ def  disp(list, I, value, N_max, sort=True):
        if ind[i] < 4:
           if list[I[m]].pgc!=lst[ind[i]].pgc:
              list[I[m]] = lst[ind[i]]
-             if list[I[m]].flag!= -1:  # if non-standardsa are moved
+             if list[I[m]].flag!= -1:  # if non-standardsa are shuffled
                list[I[m]].sort+=1
+               list[I[m]].flag=-10
                list[I[m]].user = username
           if flag[i]:                  # if an already listed non-standard is flagged
              list[I[m]].flag=1
@@ -811,17 +806,17 @@ if __name__ == '__main__':
              if value.flag > 0 :   # flagged
                  print
                  print '!!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!'
-                 if query_yes_no("Are you sure you want to flag pgc"+str(value.pgc)+"?", default='no'):
+                 if True: #query_yes_no("Are you sure you want to flag pgc"+str(value.pgc)+"?", default='no'):
                    
                    choice = query_option()
-                   if choice!=4:
+                   if choice!=9:
                        value.reason = choice 
                        print "pgc"+str(value.pgc)+' was flagged successfully ...'
                        list = insert_lst(list, value, 0)
            except:
-             print "GUI was closed unexpectedly ..."
-             unexpected = True
-             status=0
+              print "GUI was closed unexpectedly ..."
+              unexpected = True
+              status=0
            
 
        if status<2 and not unexpected:   #  1:flag, 0:done
